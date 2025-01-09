@@ -1,0 +1,142 @@
+
+@import 'variables';
+
+#accessibility-menu {
+  position: fixed;
+  top: 50%;
+  right: -320px;
+  transform: translateY(-50%);
+  background-color: $default-background;
+  font-size: $font-size-medium;
+  border: 1px solid $color-gray;
+  border-radius: 0 $border-radius-medium $border-radius-medium 0;
+  padding: $padding-medium $padding-large;
+  transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba($color-black, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: $margin-medium;
+  max-width: 280px;
+
+  &.visible {
+    right: 1px;
+  }
+
+  h3 {
+    margin-bottom: $margin-medium;
+    color: $default-text;
+    font-size: $font-size-large;
+    border-bottom: 2px solid $color-light-gray;
+    padding-bottom: $padding-small;
+  }
+
+  button {
+    background-color: $color-white;
+    color: $default-text;
+    border: 1px solid $color-gray;
+    border-radius: $border-radius-small;
+    padding: $padding-small $padding-medium;
+    font-size: $font-size-small;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+
+    &:hover {
+      background-color: $bg-high-saturation;
+      color: $text-high-saturation;
+      box-shadow: 0 2px 6px rgba($color-black, 0.1);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 3px rgba($color-accent, 0.4);
+    }
+  }
+}
+
+#toggle-accessibility {
+  position: fixed;
+  bottom: $margin-xlarge;
+  left: $margin-xlarge;
+  background-color: $color-accent;
+  color: $color-white;
+  border: none;
+  border-radius: 50%;
+  padding: $padding-large;
+  font-size: $font-size-xlarge;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba($color-black, 0.3);
+  transition: background-color 0.3s, transform 0.3s;
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($color-accent, 0.4);
+  }
+
+  @media (min-width: 650px) {
+    top: 50%;
+    left: -50px;
+    bottom: auto;
+    transform: translateY(-50%);
+    border-radius: $border-radius-medium;
+  }
+}
+
+// Accessibility Classes
+.grayscale {
+  filter: grayscale(100%);
+}
+
+.dark-contrast {
+  filter: contrast(150%) brightness(80%);
+}
+
+.light-contrast {
+  filter: contrast(90%) brightness(120%);
+}
+
+.high-saturation {
+  filter: saturate(150%);
+}
+
+.low-saturation {
+  filter: saturate(50%);
+}
+
+.font-large {
+  font-size: $font-size-large !important;
+}
+
+.font-small {
+  font-size: $font-size-small !important;
+}
+
+.line-spacing-large {
+  line-height: 1.75 !important;
+}
+
+.word-spacing-large {
+  word-spacing: 0.25em !important;
+}
+
+.letter-spacing-large {
+  letter-spacing: 0.1em !important;
+}
+
+.high-contrast {
+  filter: contrast(200%) brightness(70%);
+}
+
+.low-contrast {
+  filter: contrast(70%) brightness(130%);
+}
+
+// Universal Styles
+* {
+  pointer-events: auto;
+}
+
+a:hover,
+button:hover {
+  text-decoration: none;
+}

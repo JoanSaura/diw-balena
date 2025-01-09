@@ -1,0 +1,62 @@
+@import 'variables';
+
+@mixin transition($property, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
+}
+
+
+@mixin responsive-font-size($size-small: $font-size-large, $size-large: $font-size-xlarge) {
+  font-size: $size-small;
+
+  @media (min-width: 651px) {
+    font-size: $size-large;
+  }
+}
+
+@mixin border-radius($radius) {
+  border-radius: $radius;
+}
+
+@mixin opacity-transition($duration: 0.3s) {
+  transition: opacity $duration ease;
+}
+@mixin font-large {
+  font-size: $font-size-accessible;
+}
+
+@mixin line-spacing-large {
+  line-height: 1.8em;
+}
+
+@mixin word-spacing-large {
+  word-spacing: 0.3em;
+}
+
+@mixin letter-spacing-large {
+  letter-spacing: 0.2em;
+}
+
+@mixin grayscale {
+  background-color: $color-light-gray; 
+  color: $color-dark-gray;  
+}
+
+@mixin dark-contrast {
+  background-color: $color-dark-gray;
+  color: $color-white;
+}
+
+@mixin light-contrast {
+  background-color: $color-white;
+  color: $color-black;
+}
+
+@mixin high-saturation {
+  background-color: $color-button-bg;
+  color: $color-white;
+}
+
+@mixin low-saturation {
+  background-color: $color-light-gray;
+  color: $color-black;
+}

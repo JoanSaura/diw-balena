@@ -1,0 +1,50 @@
+.fullscreen-news {
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    width: 65%;
+    height: auto;
+    padding: 50px;
+    background-color: white;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+  }
+  .fullscreen-news .close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #333;
+  }
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+  .news-image {
+    margin-right: 250px;
+    height: 20%;
+    max-height: 70%;
+    object-fit: cover;
+    border: 2px solid #000000;
+  }
+  .content-hidden {
+    display: none;
+  }
+  
+  .new-thumbnail{
+    max-width: 250px;
+  }
+  body.no-scroll {
+    overflow: hidden;
+  }

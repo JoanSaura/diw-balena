@@ -1,0 +1,53 @@
+/*Phone display*/
+@media (max-width: 650px) {
+  .mobile_button:hover {
+    background-color: #aaa6ca;
+    color: #13142a;
+    transition: 1.5s;
+  }
+}
+/*Dekstop display*/
+@media (min-width: 651px) {
+  #lateral {
+    transition: left 0.3s ease-in-out;
+  }
+  #lateral .close i {
+    transition: transform 0.3s ease;
+  }
+  #lateral .close:hover {
+    background: #0c0022;
+    color: #ffffff;
+    transition: transform 0.3s;
+  }
+  
+}
+
+/*General Aspcets*/
+
+
+#lateral > .link:hover,
+#lateral > .link > a:hover {
+  color: aliceblue;
+  background-position: 0 100%;
+}
+
+#user-cont:hover{
+  background: linear-gradient(to bottom, #00a8e8, #007ea7, #003459);
+  background-size: 100% 200%;
+  transition: background-position 1s ease;
+}
+
+#footer-links a:hover {
+  text-decoration: underline;
+}
+.assembly-pictures:hover .hidden-info {
+  display: block;
+}
+#hidden-info{
+  transition: opacity 0.3s ease;
+}
+#login > .sumbit:hover {
+  background: linear-gradient(255deg,#21213b,#003459,#00a8e8);
+  background-size: 180% 180%;
+  animation: gradient-animation 2s ease infinite;
+}

@@ -1,0 +1,32 @@
+@import 'variables';
+
+@mixin transition($property, $duration: 0.3s, $timing: ease) {
+  transition: $property $duration $timing;
+}
+
+@mixin gradient-background($gradient) {
+  background: $gradient;
+}
+
+@mixin hover-effect($hover-bg: $gradient-button, $hover-color: $color-white) {
+  &:hover {
+    background: $hover-bg;
+    color: $hover-color;
+  }
+}
+
+@mixin responsive-font-size($size-small: $font-size-large, $size-large: $font-size-xlarge) {
+  font-size: $size-small;
+
+  @media (min-width: 651px) {
+    font-size: $size-large;
+  }
+}
+
+@mixin border-radius($radius) {
+  border-radius: $radius;
+}
+
+@mixin opacity-transition($duration: 0.3s) {
+  transition: opacity $duration ease;
+}

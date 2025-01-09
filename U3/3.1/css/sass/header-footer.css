@@ -1,0 +1,343 @@
+/* Import fonts */
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 650px) {
+  body {
+    background-color: #ffffff;
+    overflow-x: hidden;
+  }
+  .logo-img-desk,
+  #header > h1,
+  #lateral {
+    display: none;
+  }
+  .logo-img-mob {
+    width: 130px;
+    height: auto;
+    justify-content: flex-start;
+  }
+  #mobile-menu {
+    background: rgb(12, 12, 34);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    width: 100%;
+  }
+  .mobile_button {
+    width: 100%;
+    color: #aaa6ca;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+  }
+  #center-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+  .sketchfab-embed-wrapper > iframe {
+    width: 500px;
+    height: 450px;
+  }
+  #main-content {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+  .post {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: large;
+  }
+  textarea,
+  .news-post,
+  .post {
+    font-size: x-large;
+  }
+}
+@media (min-width: 651px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    justify-content: space-between;
+    min-height: 100vh;
+  }
+  .logo-img-mob,
+  .mobile_button {
+    display: none;
+  }
+  .logo-img-desk {
+    width: 160px;
+    height: 180px;
+  }
+  #center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  #main-content {
+    width: 70%;
+    padding: 15px;
+    border-radius: 15px;
+    margin: auto;
+    background-color: #ffffff;
+  }
+  .sketchfab-embed-wrapper > iframe {
+    width: 600px;
+    height: 500px;
+  }
+  #lateral {
+    left: 0;
+    width: 200px;
+    background-color: #f0f0f0;
+    display: grid;
+    padding: 20px;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    height: auto;
+    border-radius: 0 25px 25px 0;
+    border: 2px solid black;
+    box-sizing: border-box;
+    z-index: 1000;
+  }
+  .content-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: rgba(255, 255, 255, 0.9921568627);
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  #lateral .link {
+    margin: 15px;
+    padding: 10px;
+    font-size: 18px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    border: 2px solid black;
+    text-align: center;
+  }
+  #lateral .link a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+  }
+  #lateral .close {
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    border-radius: 50%;
+    border: 2px solid black;
+    cursor: pointer;
+  }
+  #lateral .close i {
+    font-size: 20px;
+  }
+  #login {
+    background-color: #ffffff;
+  }
+}
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+#header > h1 {
+  color: rgb(255, 255, 255);
+  font-family: "Gowun Batang", sans-serif;
+  text-align: center;
+  font-weight: bold;
+  flex: 1;
+}
+
+h2 {
+  font-family: "Lora", sans-serif;
+  text-align: center;
+  margin-top: 15px;
+  font-weight: bold;
+  flex: 1;
+}
+
+#user-cont {
+  border: 4px solid #ffffff;
+  border-radius: 30px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 55px;
+  width: 55px;
+  cursor: pointer;
+}
+#user-cont > .fa-user {
+  color: #ffffff;
+  font-size: 50px;
+}
+
+#main-content,
+#login {
+  padding: 15px;
+}
+
+#main-content .title-sect {
+  margin-bottom: 25px;
+}
+
+p,
+a {
+  font-family: "Nunito Sans", sans-serif;
+}
+
+p {
+  font-size: 20px;
+  margin: 15px;
+}
+
+.sketchfab-embed-wrapper > iframe {
+  box-shadow: 5px 5px 5px 5px;
+}
+
+#assembly-info-display {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: auto;
+  gap: 10px;
+}
+
+.assembly-pictures {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+}
+
+#assembly-info-display .assembly-pictures:nth-child(1) {
+  grid-column: 1/-1;
+  height: 400px;
+}
+
+#assembly-info-display .assembly-pictures:nth-child(2) {
+  grid-column: 1/span 3;
+  height: 300px;
+}
+
+#assembly-info-display .assembly-pictures:nth-child(3) {
+  grid-column: 4/span 2;
+  height: 300px;
+}
+
+#assembly-info-display .assembly-pictures:nth-child(4) {
+  grid-column: 1/span 2;
+  height: 200px;
+}
+
+#assembly-info-display .assembly-pictures:nth-child(5) {
+  grid-column: 3/span 3;
+  height: 200px;
+}
+
+#assembly-info-display .assembly-pictures:nth-child(6) {
+  grid-column: 1/span 5;
+  height: 250px;
+}
+
+.hidden-info {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 5px;
+  padding: 10px;
+  z-index: 1;
+}
+
+.pic-author {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  color: white;
+  font-size: 18px;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 5px;
+  padding: 5px 10px;
+  z-index: 2;
+}
+
+#footer {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgb(12, 12, 34);
+}
+
+#footer-links {
+  display: flex;
+}
+
+#footer-links a,
+.author {
+  color: aliceblue;
+  text-decoration: none;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+#login {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+#login .login-label {
+  font-family: "Nunito Sans", sans-serif;
+}
+
+#login > input {
+  padding: 25px;
+  border-radius: 15px;
+}
+
+#login > .sumbit-login {
+  cursor: pointer;
+  border-radius: 15px;
+  border: 2px solid black;
+  background-color: #ffffff;
+}
+
+#footer .footer-icon {
+  margin-right: 10px;
+}/*# sourceMappingURL=header-footer.css.map */

@@ -1,0 +1,56 @@
+@import 'variables';
+
+@media (max-width: 650px) {
+  .mobile_button:hover {
+    background-color: $color-dark-gray;
+    color: $color-black;
+    transition: background-color 1.5s ease, color 1.5s ease;
+  }
+}
+
+@media (min-width: 651px) {
+  #lateral {
+    transition: left 0.3s ease-in-out;
+  }
+
+  #lateral .close i {
+    transition: transform 0.3s ease;
+  }
+
+  #lateral .close:hover {
+    background: #0c0022;
+    color: $color-white;
+    transition: transform 0.3s;
+  }
+}
+
+
+#lateral > .link:hover,
+#lateral > .link > a:hover {
+  color: $color-white;
+  background-position: 0 100%;
+}
+
+#user-cont:hover {
+  background: $gradient-button;
+  background-size: 100% 200%;
+  transition: background-position 1s ease;
+}
+
+#footer-links a:hover {
+  text-decoration: underline;
+}
+
+.assembly-pictures:hover .hidden-info {
+  display: block;
+}
+
+#hidden-info {
+  transition: opacity 0.3s ease;
+}
+
+#login > .sumbit:hover {
+  background: $gradient-button;
+  background-size: 180% 180%;
+  animation: gradient-animation 2s ease infinite;
+}

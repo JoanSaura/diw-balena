@@ -1,0 +1,61 @@
+// Font Imports (for reference, actual imports go in CSS)
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+// Color Variables
+$color-white: #ffffff;
+$color-black: #000000;
+$color-light-gray: #f0f0f0;
+$color-gray: #ccc;
+$color-dark-gray: #aaa6ca;
+$color-background: #fff8dc; 
+$color-button-bg: #1a1a2e; 
+$color-button-hover-bg: #2e2e4e; 
+$color-darker: rgb(12, 12, 34);
+
+// Gradient Variables
+$gradient-header-mobile: linear-gradient(
+  0deg,
+  rgba(12, 12, 34, 1) 0%,
+  rgba(9, 41, 67, 1) 16%,
+  rgba(0, 126, 167, 1) 100%
+);
+
+$gradient-header-desktop: linear-gradient(
+  0deg,
+  rgba(12, 12, 34, 1) 0%,
+  rgba(9, 41, 67, 1) 41%,
+  rgba(0, 126, 167, 1) 100%
+);
+
+$gradient-button: linear-gradient(
+  90deg,
+  rgba(12, 12, 34, 1) 0%,
+  rgba(9, 41, 67, 1) 50%,
+  rgba(0, 126, 167, 1) 100%
+);
+
+$gradient-main-content: linear-gradient(
+  180deg,
+  rgba(255, 255, 255, 1) 0%,
+  rgba(240, 240, 240, 1) 100%
+);
+
+// Font Size Variables
+$font-size-large: 20px;
+$font-size-xlarge: x-large;
+$font-size-title: 18px;
+
+// Spacing Variables
+$padding-small: 5px;
+$padding-medium: 10px;
+$padding-large: 15px;
+$padding-xlarge: 25px;
+
+// Border Radius
+$border-radius-small: 5px;
+$border-radius-medium: 10px;
+$border-radius-large: 15px;
+$border-radius-xlarge: 30px;

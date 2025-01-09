@@ -1,0 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+@media (max-width: 650px) {
+  .mobile_button:hover {
+    background-color: #aaa6ca;
+    color: #000000;
+    transition: background-color 1.5s ease, color 1.5s ease;
+  }
+}
+@media (min-width: 651px) {
+  #lateral {
+    transition: left 0.3s ease-in-out;
+  }
+  #lateral .close i {
+    transition: transform 0.3s ease;
+  }
+  #lateral .close:hover {
+    background: #0c0022;
+    color: #ffffff;
+    transition: transform 0.3s;
+  }
+}
+#lateral > .link:hover,
+#lateral > .link > a:hover {
+  color: #ffffff;
+  background-position: 0 100%;
+}
+
+#user-cont:hover {
+  background: linear-gradient(90deg, rgb(12, 12, 34) 0%, rgb(9, 41, 67) 50%, rgb(0, 126, 167) 100%);
+  background-size: 100% 200%;
+  transition: background-position 1s ease;
+}
+
+#footer-links a:hover {
+  text-decoration: underline;
+}
+
+.assembly-pictures:hover .hidden-info {
+  display: block;
+}
+
+#hidden-info {
+  transition: opacity 0.3s ease;
+}
+
+#login > .sumbit:hover {
+  background: linear-gradient(90deg, rgb(12, 12, 34) 0%, rgb(9, 41, 67) 50%, rgb(0, 126, 167) 100%);
+  background-size: 180% 180%;
+  animation: gradient-animation 2s ease infinite;
+}/*# sourceMappingURL=transitions.css.map */

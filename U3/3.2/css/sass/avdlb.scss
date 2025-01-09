@@ -1,0 +1,79 @@
+@import 'variables';
+
+.data-section {
+  display: flex;
+  flex-direction: column;
+  gap: $padding-medium;
+  padding: $padding-small;
+}
+
+.post {
+  display: flex;
+  background-color: $color-background;
+  padding: $padding-small;
+  border: 1px solid $color-gray;
+  border-radius: $border-radius-small;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.post-image {
+  width: 340px;
+  height: 200px;
+  margin-right: $padding-small;
+  background-color: $color-light-gray;
+  border-radius: $border-radius-small;
+}
+
+.post-text {
+  p.username {
+    font-weight: bold;
+    margin-bottom: $padding-small;
+  }
+}
+
+.input-section {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: $padding-small;
+  margin-top: $padding-xlarge;
+  padding: $padding-small;
+  background-color: $color-light-gray;
+  border: 1px solid $color-gray;
+  border-radius: $border-radius-small;
+}
+
+textarea {
+  width: 90%;
+  padding: $padding-small;
+  border: 1px solid $color-gray;
+  border-radius: $border-radius-small;
+  resize: vertical;
+}
+
+input[type="file"] {
+  padding: $padding-small;
+  border: 1px solid $color-gray;
+  border-radius: $border-radius-small;
+  background-color: $color-light-gray;
+}
+
+button {
+  padding: $padding-small;
+  background-color: $color-button-bg;
+  color: $color-white;
+  border: none;
+  border-radius: $border-radius-small;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+
+  &:hover {
+    background-color: $color-button-hover-bg;
+  }
+}
+
+#accesibility-menu {
+  background-color: $color-light-gray;
+  
+}

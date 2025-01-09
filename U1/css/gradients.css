@@ -1,0 +1,41 @@
+/*Phone display*/
+@media (max-width: 650px) {
+  #header {
+    background: rgb(12, 12, 34);
+    background: linear-gradient(
+      0deg,
+      rgba(12, 12, 34, 1) 0%,
+      rgba(9, 41, 67, 1) 16%,
+      rgba(0, 126, 167, 1) 100%
+    );
+  }
+}
+/*Dekstop display*/
+@media (min-width: 651px) {
+  body {
+    background: rgb(12, 12, 34);
+    background: linear-gradient(
+      0deg,
+      rgba(12, 12, 34, 1) 0%,
+      rgba(9, 41, 67, 1) 41%,
+      rgba(0, 126, 167, 1) 100%
+    );
+  }
+}
+/*General Aspcets*/
+#login > .sumbit {
+  background: linear-gradient(
+    90deg,
+    rgba(12, 12, 34, 1) 0%,
+    rgba(9, 41, 67, 1) 50%,
+    rgba(0, 126, 167, 1) 100%
+  );
+}
+
+#main-content {
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 1) 0%,
+    rgba(240, 240, 240, 1) 100%
+  );
+}

@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .news-post {
+    @apply bg-gray-200 p-3 m-2 cursor-pointer hover:bg-gray-700 hover:text-white rounded-md shadow-md;
+  }
+}

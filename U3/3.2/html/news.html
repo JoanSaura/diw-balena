@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/7f53f0147c.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="../css/olds/transitions.css" />
+    <link rel="stylesheet" href="../css/olds/shadows.css" />
+    <link rel="stylesheet" href="../css/olds/gradients.css" />
+    <link rel="stylesheet" href="../css/sass/accesability.css">
+    <link rel="stylesheet" href="../css/sass/header-footer.css">
+    <link rel="stylesheet" href="../css/tailwind/output.css">
+    <link rel="stylesheet" href="../css/news.css">
+    <script src="../script/script.js"></script>
+    <title>El blau de la balena</title>
+  </head>
+  
+  <body>
+    <header id="header" class="text-white">
+      <a href="../index.html">
+        <img
+          src="../img/Extendend Logo inverted.png"
+          alt="Logo Móvil"
+          class="logo-img-mob"
+        />
+      </a>
+      <a href="../index.html">
+        <img
+          src="../img/logo_aula_museu inverted.png"
+          alt="Logo Escritorio"
+          class="logo-img-desk"
+        />
+      </a>
+      <h1 class="font-bold text-3xl font-gowun">El blau de la balena</h1>
+      <a href="../html/login.html" id="user-link" >
+        <div id="user-cont" class="d">
+          <i class="fa-regular fa-user"></i>
+        </div>
+      </a>
+    </header>
+
+    
+    
+    <nav id="mobile-menu" class="sm:hidden block">
+      <a href="">
+        <div class="mobile_button">Història</div>
+      </a>
+      <a href="../html/assembly.html">
+        <div class="mobile_button">Muntatge </div>
+      </a>
+      <a href="../html/avdlb.html">
+        <div class="mobile_button">Al voltant de la balena</div>
+      </a>
+      <a href="../html/news.html">
+        <div class="mobile_button">Notícies</div>
+      </a>
+    </nav>
+    
+
+    <main id="grid-container" class="flex flex-col items-center w-full font-nunito">
+      <aside id="lateral">
+        <div class="link"><a href="">Història</a></div>
+        <div class="link"><a href="../html/assembly.html">Muntatge </a></div>
+        <div class="link">
+          <a href="../html/avdlb.html">Al voltant de la balena</a>
+        </div>
+        <div class="link"><a href="../html/news.html">Notícies</a></div>
+      </aside>
+
+      <div id="main-content">
+        <h2 class="title-sect text-2xl font-bold">Notícies</h2>
+
+        <section class="news-section ">
+          <div class="news-post news-post-tl" data-image="../img/huesos-test.jpg">
+            <img src="../img/huesos-test.jpg" alt="" class="new-thumbnail"> 
+            <p class="news-title">Títol de la notícia</p>
+            <p class="username hidden-info"><i class="fa-regular fa-user"></i> Username</p>
+            <p class="hidden-info">Contingut de la notícia aquí...</p>
+          </div>
+          <div class="news-post news-post-tl" data-image="../img/huesos-test.jpg">
+            <img src="../img/huesos-test.jpg" alt="" class="new-thumbnail"> 
+            <p class="news-title">Títol de la notícia</p>
+            <p class="username hidden-info"><i class="fa-regular fa-user"></i> Username</p>
+            <p class="hidden-info">Contingut de la notícia aquí...</p>
+          </div>
+          <div class="news-post news-post-tl" data-image="../img/huesos-test.jpg">
+            <img src="../img/huesos-test.jpg" alt="" class="new-thumbnail"> 
+            <p class="news-title">Títol de la notícia</p>
+            <p class="username hidden-info"><i class="fa-regular fa-user "></i> Username</p>
+            <p class="hidden-info">Contingut de la notícia aquí...</p>
+          </div>
+        </section>
+
+        <div class="flex flex-col justify-center items-center bg-gray-100 p-6 rounded-md shadow-md w-full max-w-lg mx-auto">
+          <h3 class="text-lg font-bold text-gray-700 mb-4">Afegeix noves dades</h3>
+          <textarea
+            class="w-full p-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:outline-none mb-4"
+            placeholder="Redacta la teva informació"
+            rows="4"
+          ></textarea>
+          <input
+            type="file"
+            class="mb-4 text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-blue-100 file:text-blue-700 hover:file:bg-blue-200"
+          />
+          <button
+            class="bg-gray-900 text-white px-6 py-2 rounded-md shadow-md hover:bg-gray-700 transition duration-300"
+          >
+            Publica
+          </button>
+        </div>
+        
+      </div>
+
+      <section id="accessibility-menu" class="mr-10">
+        <button id="toggle-accessibility" aria-label="Ajustes de accesibilidad">
+            <i class="fa-solid fa-universal-access"></i>
+        </button>
+        <nav id="acs-buttons-dis">
+            <h3>Configuració de contrast</h3>
+            <button class="acs-setting" data-setting="grayscale" aria-label="Escala de grises">Escala de grisos</button>
+            <button class="acs-setting" data-setting="dark-contrast" aria-label="Contraste oscuro">Contraste fosc</button>
+            <button class="acs-setting" data-setting="light-contrast" aria-label="Contraste claro">Contraste clar</button> <!-- Botón añadido -->
+            <button class="acs-setting" data-setting="high-saturation" aria-label="Alta saturación">Alta saturació</button>
+            <button class="acs-setting" data-setting="low-saturation" aria-label="Baja saturación">Baixa saturació</button>
+    
+            <h3>Configuració de fonts</h3>
+            <button class="acs-setting" data-setting="increase-font" aria-label="Aumentar tamaño de fuente">Augmentar mida de la font</button>
+            <button class="acs-setting" data-setting="decrease-font" aria-label="Reducir tamaño de fuente">Reduir mida de la font</button>
+            <button class="acs-setting" data-setting="increase-line-spacing" aria-label="Aumentar espaciado de línea">Augmentar espaiat de línia</button>
+            <button class="acs-setting" data-setting="default-line-spacing" aria-label="Espaciado de línea por defecto">Espaiat de línia per defecte</button>
+            <button class="acs-setting" data-setting="increase-word-spacing" aria-label="Aumentar espaciado de palabras">Augmentar espaiat de paraules</button>
+            <button class="acs-setting" data-setting="increase-letter-spacing" aria-label="Aumentar espaciado de letras">Augmentar espaiat de lletres</button>
+        </nav>
+    </section>
+
+
+    </main>
+
+    <footer id="footer" class="flex  items-center justify-center text-white">
+      <div id="footer-links" class="flex space-x-4">
+        <a href="" class="hover:underline">Ies Joan Ramis i Ramis</a>
+        <a href="" class="hover:underline">Political Privacy</a>
+      </div>
+      <p class="author">Joan Saura</p>
+    </footer>
+    <script src="../script/news.js"></script>
+  </body>
+</html>

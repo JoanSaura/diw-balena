@@ -1,0 +1,8 @@
+-Rehazer Fichas
+-Retocar estilos
+ -Menu
+ -SCSS
+-Drag/Drop noticias (Jquery)
+
+
+Password *Ramis2024/25*

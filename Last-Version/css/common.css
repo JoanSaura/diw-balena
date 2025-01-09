@@ -1,0 +1,190 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
+* {
+  padding: 0;
+  margin: 0;
+}
+a:hover,
+button:hover,
+.hoverable:hover {
+  color: inherit;
+  background: inherit;
+  text-decoration: none;
+  border-color: inherit;
+}
+
+@media (max-width: 650px) {
+  .mobile_button:hover {
+    background-color: #aaa6ca;
+    color: #000000;
+    transition: background-color 1.5s ease, color 1.5s ease;
+  }
+}
+@media (min-width: 651px) {
+  #lateral {
+    transition: left 0.3s ease-in-out;
+  }
+  #lateral .close i {
+    transition: transform 0.3s ease;
+  }
+  #lateral .close:hover {
+    background: #0c0022;
+    color: #ffffff;
+    transition: transform 0.3s;
+  }
+}
+#lateral > .link {
+  background-size: 100% 200%;
+  transition: background-position 1s ease;
+}
+
+#lateral > .link:hover,
+#lateral > .link > a:hover {
+  color: #ffffff;
+  background-position: 0 100%;
+}
+
+
+#footer-links a:hover {
+  text-decoration: underline;
+}
+
+.assembly-pictures:hover .hidden-info {
+  display: block;
+}
+
+#hidden-info {
+  transition: opacity 0.3s ease;
+}
+
+#login > .sumbit:hover {
+  background: linear-gradient(90deg, rgb(12, 12, 34) 0%, rgb(9, 41, 67) 50%, rgb(0, 126, 167) 100%);
+  background-size: 180% 180%;
+  color: white;
+  animation: gradient-animation 2s ease infinite;
+}
+
+.data-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 5px;
+}
+
+.post {
+  display: flex;
+  background-color: #fff8dc;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.post-image {
+  width: 340px;
+  height: 200px;
+  margin-right: 5px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+}
+
+.post-text p.username {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.input-section {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 25px;
+  padding: 5px;
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+textarea {
+  width: 90%;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  resize: vertical;
+}
+
+input[type=file] {
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f0f0f0;
+}
+
+button {
+  padding: 5px;
+  background-color: #1a1a2e;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  text-align: center;
+}
+button:hover {
+  background-color: #2e2e4e;
+}
+
+#accesibility-menu {
+  background-color: #f0f0f0;
+}
+
+.font-large {
+  font-size: 1.1rem;
+}
+
+.font-small {
+  font-size: 0.95rem;
+}
+
+.line-spacing-large {
+  line-height: 1.8;
+}
+
+.line-spacing-default {
+  line-height: 1.5;
+}
+
+.word-spacing-large {
+  word-spacing: 0.2em;
+}
+
+.letter-spacing-large {
+  letter-spacing: 0.1em;
+}
+
+* {
+  pointer-events: auto;
+}
+
+a:hover,
+button:hover,
+.hoverable:hover {
+  color: inherit;
+  background: inherit;
+  text-decoration: none;
+  border-color: inherit;
+}
+#username {
+  font-size: x-large;
+  color: white;
+}
+#password-requirements {
+  font-size: 1.2em; 
+  color: #555; 
+  margin-top: 10px;
+  list-style: none;  
+}
+
+/*# sourceMappingURL=accesability.css.map */
+/*# sourceMappingURL=common.css.map */
