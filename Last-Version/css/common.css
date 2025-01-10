@@ -21,31 +21,6 @@ button:hover,
     transition: background-color 1.5s ease, color 1.5s ease;
   }
 }
-@media (min-width: 651px) {
-  #lateral {
-    transition: left 0.3s ease-in-out;
-  }
-  #lateral .close i {
-    transition: transform 0.3s ease;
-  }
-  #lateral .close:hover {
-    background: #0c0022;
-    color: #ffffff;
-    transition: transform 0.3s;
-  }
-}
-#lateral > .link {
-  background-size: 100% 200%;
-  transition: background-position 1s ease;
-}
-
-#lateral > .link:hover,
-#lateral > .link > a:hover {
-  color: #ffffff;
-  background-position: 0 100%;
-}
-
-
 #footer-links a:hover {
   text-decoration: underline;
 }

@@ -16,7 +16,7 @@
   }
   .logo-img-desk,
   #header > h1,
-  #lateral {
+  #head-menu {
     display: none;
   }
   .logo-img-mob {
@@ -81,6 +81,35 @@
     justify-content: space-between;
     min-height: 100vh;
   }
+  #head-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px; 
+    padding: 10px 20px;
+  }
+  
+  #head-menu .link {
+    text-align: center;
+  }
+  
+  #head-menu .link a {
+    text-decoration: none;
+    font-family: "Nunito Sans", sans-serif;
+    color: #fff;
+    font-size: 1.2em;
+    padding: 10px 15px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  #head-menu .link a:hover {
+    background-color: #aaa6ca; /* Fondo en hover */
+    color: #333; /* Color de texto al pasar el ratón */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4); /* Sombra más sutil en hover */
+  }
+  
+
   .logo-img-mob,
   .mobile_button {
     display: none;
@@ -105,22 +134,6 @@
     width: 600px;
     height: 500px;
   }
-  #lateral {
-    left: 0; 
-    width: 200px;
-    background-color: #f0f0f0;
-    display: grid;
-    padding: 25px;
-    position: fixed;
-    top: 50%;
-    transform: translateY(-50%);
-    height: auto;
-    border-radius: 0 25px 25px 0;
-    border: 2px solid black;
-    box-sizing: border-box;
-    z-index: 1000;
-    transition: left 0.3s ease;
-  }
   .content-wrapper {
     display: flex;
     justify-content: center;
@@ -129,39 +142,7 @@
     margin-top: 20px;
     flex-wrap: wrap;
   }
-  #lateral .link {
-    background-color: #00a8e8 ;
-    margin: 15px;
-    padding: 10px;
-    font-size: 18px;
-    align-items: center;
-    display: flex;
-    justify-content: center;
-    border: 2px solid black;
-    text-align: center;
-  }
-  #lateral .link a {
-    text-decoration: none;
-    font-weight: bold;
-  }
-  #lateral .close {
-    position: absolute;
-    right: -30px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 40px;
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f0f0f0;
-    border-radius: 50%;
-    border: 2px solid black;
-    cursor: pointer;
-  }
-  #lateral .close i {
-    font-size: font-size-large;
-  }
+
   #login {
     background-color: #ffffff;
   }
@@ -174,7 +155,7 @@
 }
 
 #header > h1 {
-  color: rgb(255, 255, 255);
+  color: black;
   font-family: "Gowun Batang", sans-serif;
   text-align: center;
   font-weight: bold;
