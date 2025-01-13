@@ -6,5 +6,7 @@ $(document).ready(function () {
         return;
       }
 
-    
+      const NewTitle = $('#news-title').val();
+      const NewParagraf = $('#news-paragraf').val();
+      
 });

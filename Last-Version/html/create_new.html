@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../css/gradients.css" />
     <link rel="stylesheet" href="../css/common.css" />
     <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/news.css">
     <link rel="stylesheet" href="../css/accesability.css" />
     <link rel="stylesheet" href="../css/header-footer.css" />
 
@@ -79,7 +80,39 @@
 
     <main id="center-container">
       <main id="main-content">
-       
+       <h1>Creació de noticíes</h1>
+          <section id="add-elements">
+            <h1>Eines</h1>
+            <div class="tool tool-paragraph">Paragraf</div>
+            <div class="tool tool-img">Imatge</div>
+          </section>
+
+          <section id="prototype-new">
+            <header>
+              <input type="text" id="news-title" placeholder="Titol" required>
+            </header>
+            <div id="news-body">
+              <section id="news-paragraf">
+                <textarea name="" id=""></textarea>
+                <i class="fa-solid fa-trash"></i>
+              </section>
+              <section id="news-image">
+                <i class="fa-solid fa-trash"></i>
+              </section>
+            </div>
+          </section>
+
+          <section id="add-settings">
+            <label for="">Numeru de columnes per fila</label>
+            <select name="" id="choice">
+              <option value="1">1</option>
+              <option value="2">2</option>
+            </select>
+            <button id="add-row">Afegeix fila</button>
+            <button id="save-config">Guardar configuració</button>
+            <button id="load-config">Cargar configuració</button>
+
+          </section>
       </main>
       
       <section id="accessibility-menu">
@@ -178,6 +211,6 @@
       </div>
       <p class="author">Joan Saura</p>
     </footer>
-    <script src="../script/jquery/generate_create_news.js"></script>
+    <script src="../script/jquery/create_news.js"></script>
   </body>
 </html>
