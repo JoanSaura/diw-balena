@@ -2,6 +2,7 @@ $(document).ready(function () {
     const addRow = $('#add-row');
 
     addRow.click(function() {
+        const prototypeNew = $('#prototype-new')
         const choice = parseInt($('#choice').val());  
         const newsBody = $('#news-body');  
 
@@ -12,10 +13,11 @@ $(document).ready(function () {
 
             singleRow.append(singleElement); 
             newsBody.append(singleRow);  
-            singleRow.append(EraseBtn);  
+            prototypeNew.append(EraseBtn);  
 
             EraseBtn.click(function() {
                 singleRow.remove(); 
+                EraseBtn.remove();
             });
 
         } else if (choice === 2) {
@@ -26,10 +28,12 @@ $(document).ready(function () {
 
             doubleRow.append(element1).append(element2);  
             newsBody.append(doubleRow);  
-            doubleRow.append(EraseBtn);  
+            prototypeNew.append(EraseBtn);  
 
             EraseBtn.click(function() {
                 doubleRow.remove();  
+                EraseBtn.remove();
+
             });
         }
     });
