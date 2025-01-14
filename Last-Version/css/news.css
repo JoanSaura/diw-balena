@@ -73,11 +73,6 @@
     font-size: x-large;
     border-radius: 20px;
   }
-  #news-body {
-    margin: 5px;
-    display: grid;
-    grid-template-columns: 70% 30%;
-  }
   #news-body section {
     border: 1px solid black;
     margin:5px
@@ -93,4 +88,14 @@
     justify-content: center;
     gap: 20px;
     text-align: center;
+  }
+  .double-row { 
+    display: grid;
+    grid-template-columns: 70% 30%;
+  }
+  .double-element {
+    border: 2px solid black;
+  }
+  .erase-content {
+    background-color: red;
   }
