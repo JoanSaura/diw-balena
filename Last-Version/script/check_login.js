@@ -17,7 +17,7 @@ $(document).ready(() => {
       const adminPageOption = document.createElement("li");
       const adminLink = document.createElement("a");
       adminLink.href = "../html/admin_page.html";
-      adminLink.innerText = "Admin Page"; 
+      adminLink.innerText = "Pagina d'administrador"; 
       adminPageOption.appendChild(adminLink);
       menuList.appendChild(adminPageOption);
     }
@@ -26,7 +26,7 @@ $(document).ready(() => {
     const logoutOption = document.createElement("li");
     const logoutLink = document.createElement("a");
     logoutLink.href = "#";
-    logoutLink.innerText = "Logout";
+    logoutLink.innerText = "Tancar sessió";
     logoutLink.addEventListener("click", () => {
       localStorage.removeItem("currentUser");
       window.location.reload();  // Recarga la página
