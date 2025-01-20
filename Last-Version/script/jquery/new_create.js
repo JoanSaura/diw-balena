@@ -2,6 +2,19 @@ $(document).ready(function () {
     const addRowBtn = $('#add-row');
     const paragraphTool = $('.tool-paragraph');
     const imageTool = $('.tool-img');
+    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+    const loginName = document.getElementById("username");
+
+    function setDateAndUser() {
+        const currentDate = new Date();
+        const formattedDate = currentDate.toLocaleDateString();
+        $('#news-date').text(formattedDate);
+
+        const username = currentUser ? currentUser.name : 'Usuario';
+        $('#news-username').text('Autor: ' + username);
+    }
+
+    setDateAndUser();
 
     paragraphTool.attr("data-type", "paragraph");
     imageTool.attr("data-type", "image");
@@ -158,12 +171,12 @@ $(document).ready(function () {
                 newRow += column.length > 1 ? `<div class="double-element blanck-content">` : `<div class="single-element blanck-content">`;
                 column.forEach(element => {
                     if (element.type === "paragraph") {
-                        newRow += `
+                        newRow += ` 
                             <div class="content-element">
                                 <textarea class="editable">${element.content}</textarea>
                             </div>`;
                     } else if (element.type === "image") {
-                        newRow += `
+                        newRow += ` 
                             <div class="content-element">
                                 <img src="${element.src}" alt="Imatge">
                             </div>`;
@@ -183,21 +196,3 @@ $(document).ready(function () {
 
     initializeDroppable();
 });
-
-function loadImage(event) {
-    const input = event.target;
-    const reader = new FileReader();
-    reader.onload = function () {
-        const img = $(input).siblings("img");
-        img.attr("src", reader.result);
-        img.show();
-        img.css({
-            'max-width': '200px',  
-            'max-height': '150px', 
-            'width': 'auto',       
-            'height': 'auto'       
-        });
-        $(input).hide();
-    };
-    reader.readAsDataURL(input.files[0]);
-}

@@ -137,3 +137,7 @@
 .erase-content:hover {
     background-color: darkred;
 }
+#news-header-info {
+  display: flex;
+  justify-content: space-between;
+}
