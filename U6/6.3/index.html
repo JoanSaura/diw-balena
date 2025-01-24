@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://kit.fontawesome.com/7f53f0147c.js"
+      crossorigin="anonymous"
+    ></script>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+    <link rel="stylesheet" href="css/accesability.css" />
+    <link rel="stylesheet" href="css/gradients.css" />
+    <link rel="stylesheet" href="css/header-footer.css">
+    <link rel="stylesheet" href="css/transitions.css" />
+    <link rel="stylesheet" href="css/shadows.css" />
+    <title>El blau de la balena</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="script/script.js"></script>
+    <script src="script/check_login.js"></script>
+  </head>
+
+  <body>
+    <header id="header">
+      <a href="index.html">
+        <img
+          src="img/Extendend Logo.png"
+          alt="Logo Móvil"
+          class="logo-img-mob"
+        />
+      </a>
+      <a href="index.html">
+        <img
+          src="img/logo_aula_museu inverted.png"
+          alt="Logo Escritorio"
+          class="logo-img-desk" 
+        />
+      </a>
+      <h1>El blau de la balena</h1>
+      <div class="login-apart">
+        <p id="username"></p>
+        <a href="html/login.html" id="user-link">
+          <div id="user-cont" class="d">
+            <i class="fa-regular fa-user"></i>
+          </div>
+        </a>
+      </div>
+    </header>
+    <aside id="head-menu">
+      <div class="link"><a href="">Història</a></div>
+      <div class="link"><a href="html/assembly.html">Muntatge </a></div>
+      <div class="link">
+        <a href="html/avdlb.html">Al voltant de la balena</a>
+      </div>
+      <div class="link"><a href="html/news.html">Notícies</a></div>
+    </aside>
+
+    <nav id="mobile-menu">
+      <a href="">
+        <div class="mobile_button">Història</div>
+      </a>
+      <a href="html/assembly.html">
+        <div class="mobile_button">Muntatge</div>
+      </a>
+      <a href="html/avdlb.html">
+        <div class="mobile_button">Al voltant de la balena</div>
+      </a>
+      <a href="html/news.html">
+        <div class="mobile_button">Notícies</div>
+      </a>
+    </nav>
+
+    <main id="center-container">
+      <section id="main-content">
+        <h2 class="title-sect">Pàgina de la balena</h2>
+        <div class="content-wrapper">
+          <div class="sketchfab-embed-wrapper">
+            <iframe
+              title="Blue whale skeleton"
+              frameborder="0"
+              allowfullscreen
+              mozallowfullscreen="true"
+              webkitallowfullscreen="true"
+              allow="autoplay; fullscreen; xr-spatial-tracking"
+              xr-spatial-tracking
+              execution-while-out-of-viewport
+              execution-while-not-rendered
+              web-share
+              src="https://sketchfab.com/models/8502dbef80ed4aa688c13c90cb14de73/embed"
+            >
+            </iframe>
+          </div>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
+            voluptas, dicta, animi magni tenetur laudantium sequi expedita
+            rerum, at deleniti maiores molestiae perferendis. Harum ratione
+            officiis, optio numquam sed dolore?
+          </p>
+        </div>
+      </section>
+
+      <section id="accessibility-menu">
+        <button id="toggle-accessibility" aria-label="Ajustes de accesibilidad">
+          <i class="fa-solid fa-universal-access"></i>
+        </button>
+        <nav id="acs-buttons-dis">
+          <h3>Configuració de contrast</h3>
+          <button
+            class="acs-setting"
+            data-setting="grayscale"
+            aria-label="Escala de grises"
+          >
+            Escala de grisos
+          </button>
+          <button
+            class="acs-setting"
+            data-setting="dark-contrast"
+            aria-label="Contraste oscuro"
+          >
+            Contraste fosc
+          </button>
+          <button
+            class="acs-setting"
+            data-setting="light-contrast"
+            aria-label="Contraste claro"
+          >
+            Contraste clar
+          </button>
+          <button
+            class="acs-setting"
+            data-setting="high-saturation"
+            aria-label="Alta saturación"
+          >
+            Alta saturació
+          </button>
+          <button
+            class="acs-setting"
+            data-setting="low-saturation"
+            aria-label="Baja saturación"
+          >
+            Baixa saturació
+          </button>
+
+          <h3>Configuració de fonts</h3>
+          <button
+            class="acs-setting"
+            data-setting="increase-font"
+            aria-label="Aumentar tamaño de fuente"
+          >
+            Augmentar mida de la font
+          </button>
+          <button
+            class="acs-setting"
+            data-setting="decrease-font"
+            aria-label="Reducir tamaño de fuente"
+          >
+            Reduir mida de la font
+          </button>
+          <button
+            class="acs-setting"
+            data-setting="increase-line-spacing"
+            aria-label="Aumentar espaciado de línea"
+          >
+            Augmentar espaiat de línia
+          </button>
+          <button
+            class="acs-setting"
+            data-setting="default-line-spacing"
+            aria-label="Espaciado de línea por defecto"
+          >
+            Espaiat de línia per defecte
+          </button>
+          <button
+            class="acs-setting"
+            data-setting="increase-word-spacing"
+            aria-label="Aumentar espaciado de palabras"
+          >
+            Augmentar espaiat de paraules
+          </button>
+          <button
+            class="acs-setting"
+            data-setting="increase-letter-spacing"
+            aria-label="Aumentar espaciado de letras"
+          >
+            Augmentar espaiat de lletres
+          </button>
+        </nav>
+      </section>
+    </main>
+
+    <footer id="footer">
+      <div id="footer-links">
+        <a href="">Ies Joan Ramis i Ramis</a>
+        <a href="">Political Privacy</a>
+      </div>
+      <p class="author">Joan Saura</p>
+    </footer>
+    <script src="script/script.js"></script>
+    <script></script>
+  </body>
+</html>
