@@ -2,16 +2,13 @@ $(document).ready(function () {
     const addRowBtn = $('#add-row');
     const paragraphTool = $('.tool-paragraph');
     const imageTool = $('.tool-img');
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    const loginName = document.getElementById("username");
+    const currentUser = JSON.parse(localStorage.getItem("currentUser")) || { name: 'Usuari' };
 
     function setDateAndUser() {
         const currentDate = new Date();
         const formattedDate = currentDate.toLocaleDateString();
         $('#news-date').text(formattedDate);
-
-        const username = currentUser ? currentUser.name : 'Usuario';
-        $('#news-username').text('Autor: ' + username);
+        $('#news-username').text('Autor: ' + currentUser.name);
     }
 
     setDateAndUser();
@@ -19,15 +16,8 @@ $(document).ready(function () {
     paragraphTool.attr("data-type", "paragraph");
     imageTool.attr("data-type", "image");
 
-    paragraphTool.draggable({
-        helper: "clone",
-        revert: "invalid",
-    });
-
-    imageTool.draggable({
-        helper: "clone",
-        revert: "invalid",
-    });
+    paragraphTool.draggable({ helper: "clone", revert: "invalid" });
+    imageTool.draggable({ helper: "clone", revert: "invalid" });
 
     function initializeDroppable() {
         $(".blanck-content").droppable({
@@ -38,40 +28,56 @@ $(document).ready(function () {
                 const isDoubleElement = $(this).hasClass("double-element");
                 const currentElements = $(this).children(".content-element").length;
 
-                if ((isDoubleElement && currentElements >= 1) || (!isDoubleElement && currentElements >= 1)) {
+                if ((isDoubleElement && currentElements >= 2) || (!isDoubleElement && currentElements >= 1)) {
                     alert("Aquest espai ja té el nombre màxim d'elements permès.");
                     return;
                 }
 
                 let newElement;
                 if (type === "paragraph") {
-                    newElement = $(`  
+                    newElement = `
                         <div class="content-element">
                             <textarea class="editable"></textarea>
-                        </div>
-                    `);
+                        </div>`;
                 } else if (type === "image") {
-                    newElement = $(`  
+                    newElement = `
                         <div class="content-element">
-                            <input type="file" accept="image/*" onchange="loadImage(event)" />
-                            <img src="" alt="Imatge" style="display: none;">
-                        </div>
-                    `);
+                            <input type="file" accept="image/*" onchange="loadImage(event, this)" />
+                            <img src="" alt="Imatge" style="display: none; max-width: 100%; height: auto;">
+                        </div>`;
                 }
 
                 $(this).find('h3').remove();
                 $(this).removeClass("blanck-content");
                 $(this).append(newElement);
-                makeElementsDraggable();
+                bindDeleteButtons();
             }
         });
     }
 
-    function makeElementsDraggable() {
-        $(".content-element").draggable({
-            helper: "original",
-            revert: "invalid",
+    function bindDeleteButtons() {
+        $(".delete-btn").off("click").on("click", function () {
+            const parent = $(this).closest(".content-element");
+            const container = parent.closest(".blanck-content");
+
+            parent.remove();
+
+            if (container.children(".content-element").length === 0) {
+                container.addClass("blanck-content");
+                container.append('<h3>Espai en blanc</h3>');
+            }
         });
+    }
+
+    function loadImage(event, input) {
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                $(input).siblings("img").attr("src", e.target.result).show();
+            };
+            reader.readAsDataURL(file);
+        }
     }
 
     addRowBtn.click(function () {
@@ -80,137 +86,103 @@ $(document).ready(function () {
 
         if (choice === 1) {
             const singleRow = $('<section class="single-row"></section>');
-            const singleElement = $('<div class="single-element blanck-content"></div>');
-            const eraseContainer = $('<div class="erase-container"></div>');
+            const singleElement = $('<div class="single-element blanck-content"><h3>Espai en blanc</h3></div>');
             const eraseButton = $('<button class="erase-content">Elimina fila</button>');
 
             singleRow.append(singleElement);
-            eraseContainer.append(eraseButton);
-            newsContainer.append(singleRow);
-            newsContainer.append(eraseContainer);
-
-            if (singleElement.children('h3').length === 0) {
-                singleElement.append('<h3>Espai en blanc</h3>');
-            }
+            newsContainer.append(singleRow).append(eraseButton);
 
             eraseButton.click(function () {
                 singleRow.remove();
-                eraseContainer.remove();
+                $(this).remove();
             });
-
         } else if (choice === 2) {
             const doubleRow = $('<section class="double-row"></section>');
-            const element1 = $('<div class="double-element blanck-content"></div>');
-            const element2 = $('<div class="double-element blanck-content"></div>');
-            const eraseContainer = $('<div class="erase-container"></div>');
+            const element1 = $('<div class="double-element blanck-content"><h3>Espai en blanc</h3></div>');
+            const element2 = $('<div class="double-element blanck-content"><h3>Espai en blanc</h3></div>');
             const eraseButton = $('<button class="erase-content">Elimina fila</button>');
 
             doubleRow.append(element1).append(element2);
-            eraseContainer.append(eraseButton);
-            newsContainer.append(doubleRow);
-            newsContainer.append(eraseContainer);
-
-            [element1, element2].forEach(el => {
-                if (el.children('h3').length === 0) {
-                    el.append('<h3>Espai en blanc</h3>');
-                }
-            });
+            newsContainer.append(doubleRow).append(eraseButton);
 
             eraseButton.click(function () {
                 doubleRow.remove();
-                eraseContainer.remove();
+                $(this).remove();
             });
         }
 
-        initializeDroppable();
+        initializeDroppable(); 
     });
 
-    $("#save-config").on("click", function () {
-        const rows = [];
-        $(".single-row, .double-row").each(function () {
-            const row = [];
-            $(this).find(".blanck-content").each(function () {
-                const column = [];
-                const isEmpty = $(this).children(".content-element").length === 0;
+    $("#publish").on("click", function () {
+        const title = $('#news-title').val().trim();
+        const rows = $(".single-row, .double-row");
+        let hasParagraph = false;
 
-                if (isEmpty) {
-                    column.push({ isEmpty: true });
-                } else {
-                    $(this).children(".content-element").each(function () {
-                        if ($(this).find("textarea").length) {
+        const rowsData = [];
+
+        rows.each(function () {
+            const row = [];
+            $(this).find(".single-element, .double-element").each(function () {
+                const column = [];
+                $(this).children(".content-element").each(function () {
+                    if ($(this).find("textarea").length) {
+                        const textContent = $(this).find("textarea").val().trim();
+                        if (textContent) {
+                            hasParagraph = true;
                             column.push({
                                 type: "paragraph",
-                                content: $(this).find("textarea").val(),
-                                isEmpty: false,
-                            });
-                        } else if ($(this).find("img").length) {
-                            column.push({
-                                type: "image",
-                                src: $(this).find("img").attr("src"),
-                                isEmpty: false,
+                                content: textContent,
                             });
                         }
-                    });
-                }
+                    } else if ($(this).find("img").length) {
+                        const imgSrc = $(this).find("img").attr("src");
+                        if (imgSrc) {
+                            column.push({
+                                type: "image",
+                                src: imgSrc,
+                            });
+                        }
+                    }
+                });
                 row.push(column);
             });
-            rows.push(row);
+            rowsData.push(row);
         });
 
-        const config = JSON.stringify(rows);
-        localStorage.setItem("pageBuilderConfig", config);
-        alert("Configuració guardada al navegador.");
-    });
-
-    $("#load-config").on("click", function () {
-        const config = localStorage.getItem("pageBuilderConfig");
-        if (!config) {
-            alert("No hi ha cap configuració guardada.");
+        if (!title) {
+            alert("El títol és obligatori per publicar la notícia.");
+            return;
+        }
+        if (!hasParagraph) {
+            alert("És necessari com a mínim un element de text per publicar la notícia.");
             return;
         }
 
-        const rows = JSON.parse(config);
-        $("#news-body").empty();
-        rows.forEach(row => {
-            const newRow = $('<section></section>');
-            const eraseContainer = $('<div class="erase-container"></div>');
-            const eraseButton = $('<button class="erase-content">Elimina fila</button>');
+        const newsID = new Date().getTime();
+        const status = 1;
+        const author = currentUser.name;
+        const creationDate = new Date().toLocaleDateString();
 
-            row.forEach(column => {
-                const isDouble = column.length > 1;
-                const elementClass = isDouble ? 'double-element' : 'single-element';
-                const newElement = $(`<div class="${elementClass} blanck-content"></div>`);
+        const newsData = {
+            id: newsID,
+            title: title,
+            author: author,
+            creationDate: creationDate,
+            modificationDate: creationDate,
+            content: rowsData,
+            status: status,
+        };
 
-                column.forEach(item => {
-                    if (item.isEmpty) {
-                        newElement.append('<h3>Espai en blanc</h3>');
-                    } else if (item.type === "paragraph") {
-                        newElement.append(` 
-                            <div class="content-element">
-                                <textarea class="editable">${item.content}</textarea>
-                            </div>`);
-                    } else if (item.type === "image") {
-                        newElement.append(` 
-                            <div class="content-element">
-                                <img src="${item.src}" alt="Imatge">
-                            </div>`);
-                    }
-                });
+        const publishedNews = JSON.parse(localStorage.getItem("publishedNews")) || [];
+        publishedNews.push(newsData);
+        localStorage.setItem("publishedNews", JSON.stringify(publishedNews));
 
-                newRow.append(newElement);
-            });
+        alert("La notícia s'ha publicat correctament!");
 
-            eraseContainer.append(eraseButton);
-            $("#news-body").append(newRow).append(eraseContainer);
-
-            eraseButton.click(function () {
-                newRow.remove();
-                eraseContainer.remove();
-            });
-        });
-
-        initializeDroppable();
+        window.history.back();
     });
 
-    initializeDroppable();
+    initializeDroppable(); 
+    bindDeleteButtons(); 
 });
