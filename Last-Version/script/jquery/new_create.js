@@ -3,7 +3,9 @@ $(document).ready(function () {
     const paragraphTool = $('.tool-paragraph');
     const imageTool = $('.tool-img');
     const currentUser = JSON.parse(localStorage.getItem("currentUser")) || { name: 'Usuari' };
+
     let editingNewsId = null; 
+    let originalContent = []; 
 
     function setDateAndUser() {
         const currentDate = new Date();
@@ -36,15 +38,17 @@ $(document).ready(function () {
 
                 let newElement;
                 if (type === "paragraph") {
-                    newElement = `
+                    newElement = ` 
                         <div class="content-element">
                             <textarea class="editable"></textarea>
+                            <button class="delete-btn">Eliminar Segmento</button>
                         </div>`;
                 } else if (type === "image") {
-                    newElement = `
+                    newElement = ` 
                         <div class="content-element">
                             <input type="file" accept="image/*" onchange="loadImage(event, this)" />
                             <img src="" alt="Imatge" style="display: none; max-width: 100%; height: auto;">
+                            <button class="delete-btn">Eliminar Segmento</button>
                         </div>`;
                 }
 
@@ -103,6 +107,8 @@ $(document).ready(function () {
         editingNewsId = news.id; 
         $('#news-title').val(news.title);
         $('#news-body').empty();
+
+        originalContent = JSON.parse(JSON.stringify(news.content)); 
 
         news.content.forEach(row => {
             const rowElement = $('<section class="single-row"></section>');
@@ -184,6 +190,7 @@ $(document).ready(function () {
         let hasParagraph = false;
 
         const rowsData = [];
+        let contentChanged = false; 
 
         rows.each(function () {
             const row = [];
@@ -214,6 +221,12 @@ $(document).ready(function () {
             rowsData.push(row);
         });
 
+        const currentContent = rowsData;
+
+        if (JSON.stringify(originalContent) !== JSON.stringify(currentContent)) {
+            contentChanged = true;
+        }
+
         if (!title) {
             alert("El títol és obligatori per publicar la notícia.");
             return;
@@ -223,36 +236,33 @@ $(document).ready(function () {
             return;
         }
 
+        const newsID = editingNewsId || new Date().getTime();
+        const author = currentUser.name;
+        const creationDate = new Date().toLocaleDateString();
+
+        const newsData = {
+            id: newsID,
+            title: title,
+            author: author,
+            creationDate: creationDate,
+            content: rowsData,
+        };
+
         const publishedNews = JSON.parse(localStorage.getItem("publishedNews")) || [];
 
-        if (editingNewsId) {
-            const newsIndex = publishedNews.findIndex(news => news.id === editingNewsId);
-            if (newsIndex !== -1) {
-                publishedNews[newsIndex].title = title;
-                publishedNews[newsIndex].content = rowsData;
+        if (contentChanged) {
+            const newsIndex = publishedNews.findIndex(news => news.id === newsID);
+            if (newsIndex > -1) {
+                publishedNews[newsIndex] = newsData;
             }
-            alert("Notícia actualitzada amb èxit!");
         } else {
-            
-            const newsID = new Date().getTime();
-            const author = currentUser.name;
-            const creationDate = new Date().toLocaleDateString();
-
-            const newsData = {
-                id: newsID,
-                title: title,
-                author: author,
-                creationDate: creationDate,
-                content: rowsData,
-            };
-
             publishedNews.push(newsData);
-            alert("Notícia publicada amb èxit!");
         }
 
         localStorage.setItem("publishedNews", JSON.stringify(publishedNews));
+
+        alert("Notícia publicada o actualitzada amb èxit!");
         populateNewsDropdown();
-        editingNewsId = null; 
     });
 
     populateNewsDropdown();
