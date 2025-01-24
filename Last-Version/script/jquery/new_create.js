@@ -3,6 +3,7 @@ $(document).ready(function () {
     const paragraphTool = $('.tool-paragraph');
     const imageTool = $('.tool-img');
     const currentUser = JSON.parse(localStorage.getItem("currentUser")) || { name: 'Usuari' };
+    let editingNewsId = null; 
 
     function setDateAndUser() {
         const currentDate = new Date();
@@ -80,6 +81,68 @@ $(document).ready(function () {
         }
     }
 
+    function populateNewsDropdown() {
+        const newsDropdown = $('#news-dropdown');
+        const publishedNews = JSON.parse(localStorage.getItem("publishedNews")) || [];
+
+        newsDropdown.empty();
+        newsDropdown.append('<option value="">Tria una noticia...</option>');
+
+        publishedNews.forEach(news => {
+            const option = $('<option></option>').val(news.id).text(news.title);
+            newsDropdown.append(option);
+        });
+    }
+
+    function loadNewsContent(newsId) {
+        const publishedNews = JSON.parse(localStorage.getItem("publishedNews")) || [];
+        const news = publishedNews.find(n => n.id == newsId);
+
+        if (!news) return;
+
+        editingNewsId = news.id; 
+        $('#news-title').val(news.title);
+        $('#news-body').empty();
+
+        news.content.forEach(row => {
+            const rowElement = $('<section class="single-row"></section>');
+
+            row.forEach(column => {
+                const newElement = $('<div class="content-element"></div>');
+
+                column.forEach(element => {
+                    if (element.type === "paragraph") {
+                        const textArea = $('<textarea class="editable"></textarea>').val(element.content);
+                        newElement.append(textArea);
+                    } else if (element.type === "image") {
+                        const imgInput = $('<input type="file" accept="image/*" onchange="loadImage(event, this)" />');
+                        const img = $('<img src="' + element.src + '" alt="Imatge" style="max-width: 100%; height: auto;">');
+                        newElement.append(imgInput).append(img);
+                    }
+                });
+
+                rowElement.append(newElement);
+            });
+
+            if (rowElement.find('.content-element').length === 0) {
+                const emptyElement = $('<div class="content-element blanck-content"><h3>Espai en blanc</h3></div>');
+                rowElement.append(emptyElement);
+            }
+
+            $('#news-body').append(rowElement);
+        });
+
+        initializeDroppable();
+        bindDeleteButtons();
+    }
+
+    $('#news-dropdown').change(function () {
+        const selectedNewsId = $(this).val();
+        if (selectedNewsId) {
+            loadNewsContent(selectedNewsId);
+        }
+    });
+
     addRowBtn.click(function () {
         const choice = parseInt($('#choice').val());
         const newsContainer = $('#news-body');
@@ -111,7 +174,8 @@ $(document).ready(function () {
             });
         }
 
-        initializeDroppable(); 
+        initializeDroppable();
+        bindDeleteButtons();
     });
 
     $("#publish").on("click", function () {
@@ -159,30 +223,37 @@ $(document).ready(function () {
             return;
         }
 
-        const newsID = new Date().getTime();
-        const status = 1;
-        const author = currentUser.name;
-        const creationDate = new Date().toLocaleDateString();
-
-        const newsData = {
-            id: newsID,
-            title: title,
-            author: author,
-            creationDate: creationDate,
-            modificationDate: creationDate,
-            content: rowsData,
-            status: status,
-        };
-
         const publishedNews = JSON.parse(localStorage.getItem("publishedNews")) || [];
-        publishedNews.push(newsData);
+
+        if (editingNewsId) {
+            const newsIndex = publishedNews.findIndex(news => news.id === editingNewsId);
+            if (newsIndex !== -1) {
+                publishedNews[newsIndex].title = title;
+                publishedNews[newsIndex].content = rowsData;
+            }
+            alert("Notícia actualitzada amb èxit!");
+        } else {
+            
+            const newsID = new Date().getTime();
+            const author = currentUser.name;
+            const creationDate = new Date().toLocaleDateString();
+
+            const newsData = {
+                id: newsID,
+                title: title,
+                author: author,
+                creationDate: creationDate,
+                content: rowsData,
+            };
+
+            publishedNews.push(newsData);
+            alert("Notícia publicada amb èxit!");
+        }
+
         localStorage.setItem("publishedNews", JSON.stringify(publishedNews));
-
-        alert("La notícia s'ha publicat correctament!");
-
-        window.history.back();
+        populateNewsDropdown();
+        editingNewsId = null; 
     });
 
-    initializeDroppable(); 
-    bindDeleteButtons(); 
+    populateNewsDropdown();
 });

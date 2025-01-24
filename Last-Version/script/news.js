@@ -80,14 +80,13 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
           ${currentUser.edit_news ? `
             <div class="action-buttons">
-              <button class="edit-news-btn">Editar</button>
               <button class="delete-news-btn">Eliminar</button>
             </div>
           ` : ''}
         </div>
       </div>
     `;
-
+    
     body.appendChild(overlay);
     body.appendChild(fullscreenContainer);
     body.classList.add('no-scroll');
@@ -97,11 +96,11 @@ document.addEventListener('DOMContentLoaded', () => {
     overlay.addEventListener('click', closeModal);
 
     if (currentUser.edit_news) {
-      const editButton = fullscreenContainer.querySelector('.edit-news-btn');
       const deleteButton = fullscreenContainer.querySelector('.delete-news-btn');
 
-      editButton.addEventListener('click', () => editNews(news));
-      deleteButton.addEventListener('click', () => deleteNews(news.id));
+      if (deleteButton) {
+        deleteButton.addEventListener('click', () => deleteNews(news.id));
+      }
     }
 
     function closeModal() {
@@ -132,19 +131,6 @@ document.addEventListener('DOMContentLoaded', () => {
       .join('<hr>');
   }
 
-  function editNews(news) {
-    const newTitle = prompt('Editar el títol:', news.title);
-    if (newTitle) {
-      news.title = newTitle;
-      news.modificationDate = new Date().toLocaleDateString();
-
-      localStorage.setItem('publishedNews', JSON.stringify(publishedNews));
-      alert('Notícia actualitzada correctament.');
-      renderNewsPosts();
-      closeModal();
-    }
-  }
-
   function deleteNews(newsId) {
     if (confirm('Estàs segur que vols eliminar aquesta notícia?')) {
       const index = publishedNews.findIndex(news => news.id === newsId);
@@ -153,7 +139,12 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.setItem('publishedNews', JSON.stringify(publishedNews));
         alert('Notícia eliminada correctament.');
         renderNewsPosts();
-        closeModal();
+
+        const overlay = document.querySelector('.overlay');
+        const fullscreenContainer = document.querySelector('.fullscreen-news');
+        if (overlay) overlay.remove();
+        if (fullscreenContainer) fullscreenContainer.remove();
+        body.classList.remove('no-scroll');
       }
     }
   }
