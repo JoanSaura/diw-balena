@@ -183,7 +183,7 @@ $(document).ready(function () {
         initializeDroppable();
         bindDeleteButtons();
     });
-
+    
     $("#publish").on("click", function () {
         const title = $('#news-title').val().trim();
         const rows = $(".single-row, .double-row");

@@ -21,4 +21,4 @@
   const analytics = getAnalytics(app);
 
   const db  = getFirestore(app)
-  export const saveNew()
+  export const saveNew(title,)
