@@ -1,0 +1,143 @@
+.fullscreen-news {
+    position: fixed;
+    z-index: 1000;
+    left: 50%;
+    top: 50%;
+    width: 65%;
+    height: auto;
+    padding: 50px;
+    background-color: white;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: row;
+  }
+  .fullscreen-news .close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #333;
+  }
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+  .news-image {
+    margin-right: 250px;
+    height: 20%;
+    max-height: 70%;
+    object-fit: cover;
+    border: 2px solid #000000;
+  }
+  .content-hidden {
+    display: none;
+  }
+  
+  .new-thumbnail{
+    max-width: 250px;
+  }
+  body.no-scroll {
+    overflow: hidden;
+  }
+  /*Create news*/
+  #add-elements {
+    background-color: lightblue;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: center;
+    margin: 15px;
+  }
+  #add-elements > .tool {
+    margin: 10px;
+    padding: 10px;
+    background-color: #bebdbd;
+    border: 1px solid black;
+  }
+  #prototype-new {
+    background-color: darkgray;
+    padding: 15px;
+    border-radius: 10px;
+  }
+  #news-title{
+    width: 100%;
+    height: 45px;
+    font-size: x-large;
+    border-radius: 20px;
+  }
+  #news-body section {
+    border: 1px solid black;
+    margin:5px
+  }
+  #news-paragraf .fa-trash,
+  #news-image .fa-trash{
+    color: red;
+    font-size: large;
+  }
+  .single-row,.double-element {
+    
+    padding: 25px;
+    height: 50%;
+  }
+
+  #add-settings {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    text-align: center;
+  }
+  .erase-content {
+    background-color: red;
+  }
+  .erase-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px; 
+}
+
+.erase-content {
+    padding: 8px 12px;
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.double-row {
+  display: grid; 
+  grid-template-columns: 70% 30%; 
+  gap: 10px; 
+}
+
+.element-1,
+.element-2 {
+  border: 2px solid #000; 
+  padding: 20px; 
+  box-sizing: border-box; 
+}
+
+.element-1 {
+  text-align: left; 
+}
+
+.element-2 {
+  text-align: right; 
+}
+.blanck-content {
+  text-align: center;
+}
+.erase-content:hover {
+    background-color: darkred;
+}
+#news-header-info {
+  display: flex;
+  justify-content: space-between;
+}

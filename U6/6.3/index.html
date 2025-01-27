@@ -7,45 +7,43 @@
       src="https://kit.fontawesome.com/7f53f0147c.js"
       crossorigin="anonymous"
     ></script>
+    <link rel="stylesheet" href="css/common.css" />
+    <link rel="stylesheet" href="css/admin.css" />
+    <link rel="stylesheet" href="css/accesability.css" />
+    <link rel="stylesheet" href="css/gradients.css" />
+    <link rel="stylesheet" href="css/header-footer.css">
+    <link rel="stylesheet" href="css/transitions.css" />
+    <link rel="stylesheet" href="css/shadows.css" />
+    <title>El blau de la balena</title>
     <script
       src="https://code.jquery.com/jquery-3.7.1.js"
       integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
       crossorigin="anonymous"
     ></script>
-    <script src="../script/script.js"></script>
-    <script src="../script/check_login.js"></script>
-    <link rel="stylesheet" href="../css/transitions.css" />
-    <link rel="stylesheet" href="../css/shadows.css" />
-    <link rel="stylesheet" href="../css/gradients.css" />
-    <link rel="stylesheet" href="../css/accesability.css" />
-    <link rel="stylesheet" href="../css/header-footer.css" />
-    <link rel="stylesheet" href="../css/tailwind/output.css" />
-    <link rel="stylesheet" href="../css/admin.css">
-    <link rel="stylesheet" href="../css/news.css" />
-    <title>El blau de la balena</title>
+    <script src="script/script.js"></script>
+    <script src="script/check_login.js"></script>
   </head>
 
   <body>
-    <header id="header" class="text-white">
-      <a href="../index.html">
+    <header id="header">
+      <a href="index.html">
         <img
-          src="../img/Extendend Logo inverted.png"
+          src="img/Extendend Logo.png"
           alt="Logo Móvil"
           class="logo-img-mob"
         />
       </a>
-      <a href="../index.html">
+      <a href="index.html">
         <img
-          src="../img/logo_aula_museu inverted.png"
+          src="img/logo_aula_museu inverted.png"
           alt="Logo Escritorio"
-          class="logo-img-desk"
+          class="logo-img-desk" 
         />
       </a>
-      <h1 class="font-bold text-3xl font-gowun">El blau de la balena</h1>
-
+      <h1>El blau de la balena</h1>
       <div class="login-apart">
         <p id="username"></p>
-        <a href="../html/login.html" id="user-link">
+        <a href="html/login.html" id="user-link">
           <div id="user-cont" class="d">
             <i class="fa-regular fa-user"></i>
           </div>
@@ -54,84 +52,58 @@
     </header>
     <aside id="head-menu">
       <div class="link"><a href="">Història</a></div>
-      <div class="link"><a href="../html/assembly.html">Muntatge </a></div>
+      <div class="link"><a href="html/assembly.html">Muntatge </a></div>
       <div class="link">
-        <a href="../html/avdlb.html">Al voltant de la balena</a>
+        <a href="html/avdlb.html">Al voltant de la balena</a>
       </div>
-      <div class="link"><a href="../html/news.html">Notícies</a></div>
+      <div class="link"><a href="html/news.html">Notícies</a></div>
     </aside>
 
-    <nav id="mobile-menu" class="sm:hidden block">
+    <nav id="mobile-menu">
       <a href="">
         <div class="mobile_button">Història</div>
       </a>
-      <a href="../html/assembly.html">
+      <a href="html/assembly.html">
         <div class="mobile_button">Muntatge</div>
       </a>
-      <a href="../html/avdlb.html">
+      <a href="html/avdlb.html">
         <div class="mobile_button">Al voltant de la balena</div>
       </a>
-      <a href="../html/news.html">
+      <a href="html/news.html">
         <div class="mobile_button">Notícies</div>
       </a>
     </nav>
 
-    <main
-      id="grid-container"
-      class="flex flex-col items-center w-full font-nunito"
-    >
-
-      <div id="main-content">
-        <h2 class="title-sect text-2xl font-bold">Notícies</h2>
-
-        <section class="news-section" id="news-container">
-          <!--<div
-            class="news-post news-post-tl"
-            data-image="../img/huesos-test.jpg"
-          >
-            <img src="../img/huesos-test.jpg" alt="" class="new-thumbnail" />
-            <p class="news-title">Títol de la notícia</p>
-            <p class="username hidden-info">
-              <i class="fa-regular fa-user"></i> Username
-            </p>
-            <p class="hidden-info">Contingut de la notícia aquí...</p>
+    <main id="center-container">
+      <section id="main-content">
+        <h2 class="title-sect">Pàgina de la balena</h2>
+        <div class="content-wrapper">
+          <div class="sketchfab-embed-wrapper">
+            <iframe
+              title="Blue whale skeleton"
+              frameborder="0"
+              allowfullscreen
+              mozallowfullscreen="true"
+              webkitallowfullscreen="true"
+              allow="autoplay; fullscreen; xr-spatial-tracking"
+              xr-spatial-tracking
+              execution-while-out-of-viewport
+              execution-while-not-rendered
+              web-share
+              src="https://sketchfab.com/models/8502dbef80ed4aa688c13c90cb14de73/embed"
+            >
+            </iframe>
           </div>
-          <div
-            class="news-post news-post-tl"
-            data-image="../img/huesos-test.jpg"
-          >
-            <img src="../img/huesos-test.jpg" alt="" class="new-thumbnail" />
-            <p class="news-title">Títol de la notícia</p>
-            <p class="username hidden-info">
-              <i class="fa-regular fa-user"></i> Username
-            </p>
-            <p class="hidden-info">Contingut de la notícia aquí...</p>
-          </div>
-          <div
-            class="news-post news-post-tl"
-            data-image="../img/huesos-test.jpg"
-          >
-            <img src="../img/huesos-test.jpg" alt="" class="new-thumbnail" />
-            <p class="news-title">Títol de la notícia</p>
-            <p class="username hidden-info">
-              <i class="fa-regular fa-user"></i> Username
-            </p>
-            <p class="hidden-info">Contingut de la notícia aquí...</p>
-          </div>!-->
-        </section>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias
+            voluptas, dicta, animi magni tenetur laudantium sequi expedita
+            rerum, at deleniti maiores molestiae perferendis. Harum ratione
+            officiis, optio numquam sed dolore?
+          </p>
+        </div>
+      </section>
 
-        <div
-          class="flex flex-col justify-center items-center p-6 rounded-md  w-full max-w-lg mx-auto"
-        >
-          <button
-            class="bg-gray-900 text-white px-6 py-2 rounded-md shadow-md hover:bg-gray-700 transition duration-300"
-          >
-          <a href="news/create_new.html">Crea notícia</a>
-        </button>
-        
-      </div>
-
-      <section id="accessibility-menu" class="mr-10">
+      <section id="accessibility-menu">
         <button id="toggle-accessibility" aria-label="Ajustes de accesibilidad">
           <i class="fa-solid fa-universal-access"></i>
         </button>
@@ -158,7 +130,6 @@
           >
             Contraste clar
           </button>
-          <!-- Botón añadido -->
           <button
             class="acs-setting"
             data-setting="high-saturation"
@@ -221,13 +192,14 @@
       </section>
     </main>
 
-    <footer id="footer" class="flex items-center justify-center text-white">
-      <div id="footer-links" class="flex space-x-4">
-        <a href="" class="hover:underline">Ies Joan Ramis i Ramis</a>
-        <a href="" class="hover:underline">Political Privacy</a>
+    <footer id="footer">
+      <div id="footer-links">
+        <a href="">Ies Joan Ramis i Ramis</a>
+        <a href="">Political Privacy</a>
       </div>
       <p class="author">Joan Saura</p>
     </footer>
-    <script src="../script/news.js"></script>
+    <script src="script/script.js"></script>
+    <script></script>
   </body>
 </html>

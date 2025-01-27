@@ -1,0 +1,42 @@
+/*Phone display*/
+@media (max-width: 650px) {
+  .mobile_button:hover {
+    background-color: #aaa6ca;
+    color: #13142a;
+    transition: 1.5s;
+  }
+}
+/*Dekstop display*/
+@media (min-width: 651px) {
+  #lateral {
+    transition: left 0.3s ease-in-out;
+  }
+  #lateral .close i {
+    transition: transform 0.3s ease;
+  }
+  #lateral .close:hover {
+    background: #0c0022;
+    color: #ffffff;
+    transition: transform 0.3s;
+  }
+  
+}
+
+/*General Aspcets*/
+
+
+#lateral > .link:hover,
+#lateral > .link > a:hover {
+  color: aliceblue;
+  background-position: 0 100%;
+}
+
+#footer-links a:hover {
+  text-decoration: underline;
+}
+.assembly-pictures:hover .hidden-info {
+  display: block;
+}
+#hidden-info{
+  transition: opacity 0.3s ease;
+}

@@ -3,32 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script
-    src="https://code.jquery.com/jquery-3.7.1.js"
-    integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-    crossorigin="anonymous"
-    ></script>
-    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-
     <script src="../../script/script.js"></script>
-    <script src="../../script/check_login.js"></script>
     <link rel="stylesheet" href="../../css/transitions.css" />
     <link rel="stylesheet" href="../../css/shadows.css" />
     <link rel="stylesheet" href="../../css/gradients.css" />
     <link rel="stylesheet" href="../../css/common.css" />
-    <link rel="stylesheet" href="../../css/admin.css">
-    <link rel="stylesheet" href="../../css/news.css">
+    <link rel="stylesheet" href="../../css/admin.css" />
     <link rel="stylesheet" href="../../css/accesability.css" />
     <link rel="stylesheet" href="../../css/header-footer.css" />
-
     <title>El blau de la balena</title>
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="../script/script.js"></script>
+    <script src="../script/check_login.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-
     <script
       src="https://kit.fontawesome.com/7f53f0147c.js"
       crossorigin="anonymous"
     ></script>
+    <script src="../../script/jquery/generate_edit_user.js"></script>
   </head>
 
   <body>
@@ -50,16 +46,13 @@
       <h1>El blau de la balena</h1>
       <div class="login-apart">
         <p id="username"></p>
-        <a href="#" id="user-link" >
-          <div id="user-cont" class="d">
-            <i class="fa-regular fa-user"></i>
-          </div>
+    
         </a>
       </div>
     </header>
     <aside id="head-menu">
       <div class="link"><a href="">Història</a></div>
-      <div class="link"><a href="../../html/assembly.html">Muntatge </a></div>
+      <div class="link"><a href="../../html/assembly.html">Muntatge</a></div>
       <div class="link">
         <a href="../../html/avdlb.html">Al voltant de la balena</a>
       </div>
@@ -82,64 +75,7 @@
     </nav>
 
     <main id="center-container">
-      <main id="main-content">
-       <h1>Creació de noticíes</h1>
-          <section id="add-elements">
-            <h1>Eines</h1>
-            <div class="tool tool-paragraph">Paragraf</div>
-            <div class="tool tool-img">Imatge</div>
-
-            <h2>Edició de noticíes existents</h2>
-            <select id="news-dropdown">
-                <option value="">Tria</option>
-            </select>
-            
-          </section>
-
-     
-
-          <section id="prototype-new">
-            <header>
-              <input type="text" id="news-title" placeholder="Titol" required>
-              <div id="news-header-info">
-                <p id="news-username"></p> 
-                <p id="news-date"></p> 
-              </div>
-            </header>
-            <div id="news-body">
-             <!-- <section class="single-row">
-              </section>
-              <button class="erase-content">Borra</button>
-              <section class="double-row">
-                <div class="double-element element-1">
-
-                </div>
-                <div class="double-element element-2">
-                </div>
-              </section>
-              <button class="erase-content">Borra</button>
-               -->
-            </div>
-            
-          </section>
-
-          <section id="add-settings">
-            <label for="">Numeru de columnes per fila</label>
-            <select name="" id="choice">
-              <option value="1">1</option>
-              <option value="2">2</option>
-            </select>
-            <button id="add-row">Afegeix fila</button>
-            <button id="save-config">Guardar configuració</button>
-            <button id="load-config">Cargar configuració</button>
-
-          </section>
-          <div id="add-settings">
-            <button id="publish">Publica</button>
-        </div>
-        
-          
-      </main>
+      <main id="main-content"></main>
       
       <section id="accessibility-menu">
         <button id="toggle-accessibility" aria-label="Ajustes de accesibilidad">
@@ -237,8 +173,5 @@
       </div>
       <p class="author">Joan Saura</p>
     </footer>
-    <script src="../../script/jquery/new_create.js"></script>
   </body>
 </html>
-<script type="module" src="/script/firebase.js">
-</script>
