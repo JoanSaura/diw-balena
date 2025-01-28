@@ -5,12 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const currentUser = JSON.parse(localStorage.getItem('currentUser')); 
 
-  if (!currentUser) {
-    alert('No s’ha detectat cap usuari loguejat. Redirigint a l’inici de sessió...');
-    window.location.href = '/login.html'; 
-    return;
-  }
-
   const publishedNews = JSON.parse(localStorage.getItem('publishedNews')) || [];
 
   if (!currentUser.edit_news && createNewsButton) {
