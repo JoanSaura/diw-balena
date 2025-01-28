@@ -38,12 +38,12 @@ $(document).ready(function () {
 
                 let newElement;
                 if (type === "paragraph") {
-                    newElement = ` 
+                    newElement = `
                         <div class="content-element">
                             <textarea class="editable"></textarea>
                         </div>`;
                 } else if (type === "image") {
-                    newElement = ` 
+                    newElement = `
                         <div class="content-element">
                             <input type="file" accept="image/*" onchange="loadImage(event, this)" />
                             <img src="" alt="Imatge" style="display: none; max-width: 100%; height: auto;">
@@ -181,7 +181,7 @@ $(document).ready(function () {
         initializeDroppable();
         bindDeleteButtons();
     });
-    
+
     $("#publish").on("click", function () {
         const title = $('#news-title').val().trim();
         const rows = $(".single-row, .double-row");
@@ -219,12 +219,6 @@ $(document).ready(function () {
             rowsData.push(row);
         });
 
-        const currentContent = rowsData;
-
-        if (JSON.stringify(originalContent) !== JSON.stringify(currentContent)) {
-            contentChanged = true;
-        }
-
         if (!title) {
             alert("El títol és obligatori per publicar la notícia.");
             return;
@@ -248,11 +242,9 @@ $(document).ready(function () {
 
         const publishedNews = JSON.parse(localStorage.getItem("publishedNews")) || [];
 
-        if (contentChanged) {
-            const newsIndex = publishedNews.findIndex(news => news.id === newsID);
-            if (newsIndex > -1) {
-                publishedNews[newsIndex] = newsData;
-            }
+        const newsIndex = publishedNews.findIndex(news => news.id === newsID);
+        if (newsIndex > -1) {
+            publishedNews[newsIndex] = newsData;
         } else {
             publishedNews.push(newsData);
         }
