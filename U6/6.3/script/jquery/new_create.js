@@ -41,14 +41,12 @@ $(document).ready(function () {
                     newElement = ` 
                         <div class="content-element">
                             <textarea class="editable"></textarea>
-                            <button class="delete-btn">Eliminar Segmento</button>
                         </div>`;
                 } else if (type === "image") {
                     newElement = ` 
                         <div class="content-element">
                             <input type="file" accept="image/*" onchange="loadImage(event, this)" />
                             <img src="" alt="Imatge" style="display: none; max-width: 100%; height: auto;">
-                            <button class="delete-btn">Eliminar Segmento</button>
                         </div>`;
                 }
 
