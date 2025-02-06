@@ -1,3 +1,5 @@
+import {publishNews,getNews,editNews,deleteNews} from '../firebase.js'
+
 $(document).ready(function () {
     const addRowBtn = $('#add-row');
     const paragraphTool = $('.tool-paragraph');
@@ -163,6 +165,7 @@ $(document).ready(function () {
                 singleRow.remove();
                 $(this).remove();
             });
+
         } else if (choice === 2) {
             const doubleRow = $('<section class="double-row"></section>');
             const element1 = $('<div class="double-element blanck-content"><h3>Espai en blanc</h3></div>');
