@@ -1,3 +1,5 @@
+import { createUser } from "../firebase.js";
+
 $(document).ready(function () {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
   console.log(currentUser);
@@ -25,21 +27,21 @@ $(document).ready(function () {
         <label for="is-admin">Usuari Administrador</label>
       </div>
       <button type="submit" id="submit-user">Crear Usuari</button>
-       <ul id="password-requirements">
-      <li>La contrasenya ha de tenir almenys 12 caràcters.</li>
-      <li>Ha de contenir almenys una lletra majúscula.</li>
-      <li>Ha de contenir almenys una lletra minúscula.</li>
-      <li>Ha de contenir almenys un número.</li>
-      <li>Ha de contenir almenys un caràcter especial (!@#$%^&*).</li>
-    </ul>
-      </form>
+      <ul id="password-requirements">
+        <li>La contrasenya ha de tenir almenys 12 caràcters.</li>
+        <li>Ha de contenir almenys una lletra majúscula.</li>
+        <li>Ha de contenir almenys una lletra minúscula.</li>
+        <li>Ha de contenir almenys un número.</li>
+        <li>Ha de contenir almenys un caràcter especial (!@#$%^&*).</li>
+      </ul>
+    </form>
     <p id="error-message" style="color: red; display: none;"></p>
     <p id="success-message" style="color: green; display: none;"></p>
   `;
 
   $('#main-content').html(formHtml);
 
-  $('#user-form').on('submit', function (e) {
+  $('#user-form').on('submit', async function (e) {
     e.preventDefault();
 
     const name = $('#name').val();
@@ -51,6 +53,7 @@ $(document).ready(function () {
 
     let errorMessage = '';
 
+    // Validació dels camps del formulari
     if (!name) {
       errorMessage = 'El nom no pot estar buit.';
     } else if (!email) {
@@ -75,11 +78,17 @@ $(document).ready(function () {
       return;
     }
 
+    // Generar un salt i encriptar la contrasenya
+    const salt = generateSalt();
+    const encryptedPassword = encryptPassword(password, salt);
+
+    // Creació de l'objecte usuari
     const newUser = {
-      id: Date.now(),
+      id: email, // L'ID és el correu electrònic de l'usuari
       name: name,
       email: email,
-      password: password,
+      password: encryptedPassword, 
+      salt: salt, 
       edit_news: createNews,
       edit_bone_files: createRecords,
       is_admin: isAdmin,
@@ -87,49 +96,42 @@ $(document).ready(function () {
       is_first_login: true
     };
 
+    // Guardar l'usuari a LocalStorage
     const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
     storedUsers.push(newUser);
     localStorage.setItem('users', JSON.stringify(storedUsers));
 
+    // Guardar l'usuari a Firestore
+    await createUser(newUser);
+
+    // Missatge de confirmació i restabliment del formulari
     $('#success-message').text('Usuari creat correctament!').show();
     $('#error-message').hide();
     $('#user-form')[0].reset();
   });
 
+  // Funcions de validació de la contrasenya
   function containsUppercase(password) {
-    for (let char of password) {
-      if (char >= 'A' && char <= 'Z') {
-        return true;
-      }
-    }
-    return false;
+    return /[A-Z]/.test(password);
   }
 
   function containsLowercase(password) {
-    for (let char of password) {
-      if (char >= 'a' && char <= 'z') {
-        return true;
-      }
-    }
-    return false;
+    return /[a-z]/.test(password);
   }
 
   function containsNumber(password) {
-    for (let char of password) {
-      if (char >= '0' && char <= '9') {
-        return true;
-      }
-    }
-    return false;
+    return /[0-9]/.test(password);
   }
 
   function containsSpecialCharacter(password) {
-    const specialCharacters = "!@#$%^&*";
-    for (let char of password) {
-      if (specialCharacters.includes(char)) {
-        return true;
-      }
-    }
-    return false;
+    return /[!@#$%^&*]/.test(password);
+  }
+
+  function generateSalt() {
+    return CryptoJS.lib.WordArray.random(128 / 8).toString(CryptoJS.enc.Base64);
+  }
+
+  function encryptPassword(password, salt) {
+    return CryptoJS.SHA256(password + salt).toString();
   }
 });
