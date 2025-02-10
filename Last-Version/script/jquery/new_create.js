@@ -1,5 +1,3 @@
-import {publishNews,getNews,editNews,deleteNews} from '../firebase.js'
-
 $(document).ready(function () {
     const addRowBtn = $('#add-row');
     const paragraphTool = $('.tool-paragraph');
@@ -250,7 +248,7 @@ $(document).ready(function () {
             publishedNews[newsIndex] = newsData;
         } else {
             publishedNews.push(newsData);
-        }
+        }z
 
         localStorage.setItem("publishedNews", JSON.stringify(publishedNews));
 
