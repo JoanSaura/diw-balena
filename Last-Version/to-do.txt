@@ -1,12 +1,5 @@
-• Following the original design you must create the functionality to create,
-edit and delete news.
-• To do this, you need to save an id, the title of the news, the author, the date
-of creation and modification, the content (content distribution by rows) and
-the status of the news (0 for draft and 1 for published).
-• You need to apply the functionality explained in the given code to design the
-structure of each news item.
-• The database is created and mantained in the browser’s localStorage.
-• Pay attention to usability. As we have discussed in class, it is advisable to
-have an option to save changes while the user edits a news item without
-leaving the page, another option to publish and another to go back. It will also
-be positively valued to be able to edit a table element by double clicking, etc.
+ - Login desde Firebase
+ - Encriptar contraseña edit
+ - Crear noticias
+ - Editar noticias
+ - Leer las noticias
