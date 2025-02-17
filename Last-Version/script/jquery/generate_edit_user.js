@@ -29,6 +29,7 @@ $(document).ready(async function () {
       </div>
       <button type="button" id="edit-user-btn">Editar</button>
       <p id="error-message" style="color: red; display: none;"></p>
+      <p id="success-message" style="color: green; display: none;"></p>
     </form>
   `);
 
@@ -36,60 +37,73 @@ $(document).ready(async function () {
 
   const $userSelect = $("#edit-users");
 
-  // Cargar usuarios desde Firestore
   async function loadUsers() {
     const users = await getUsers();
     $userSelect.empty().append('<option value="">Selecciona un usuari</option>');
-
     users.forEach(user => {
       $userSelect.append(`<option value="${user.id}">${user.name}</option>`);
     });
   }
 
-  // Cargar usuarios al iniciar
   await loadUsers();
 
-  // Actualizar formulario con datos del usuario seleccionado
-  async function updateFormFields(selectedUserEmail) {
-    if (!selectedUserEmail) return;
-
-    const user = await getUserByEmail(selectedUserEmail);
+  async function updateFormFields(selectedUserId) {
+    if (!selectedUserId) return;
+    const user = await getUserByEmail(selectedUserId);
     if (user) {
       $("#edit-name").val(user.name);
-      $("#edit-password").val(""); // No mostrar la contraseña original
+      $("#edit-password").val("");
       $("#edit-create-fiches").prop("checked", user.edit_bone_files || false);
       $("#edit-create-news").prop("checked", user.edit_news || false);
       $("#edit-create-users").prop("checked", user.edit_users || false);
     }
   }
 
-  // Escuchar cambios en el <select>
   $userSelect.on("change", function () {
-    const selectedUserEmail = $(this).val();
-    updateFormFields(selectedUserEmail);
+    const selectedUserId = $(this).val();
+    updateFormFields(selectedUserId);
   });
 
-  // Guardar cambios en Firebase
+  function generateSalt() {
+    return CryptoJS.lib.WordArray.random(128 / 8).toString(CryptoJS.enc.Base64);
+  }
+
+  function encryptPassword(password, salt) {
+    return CryptoJS.SHA256(password + salt).toString();
+  }
+
   $("#edit-user-btn").on("click", async function () {
-    const selectedUserEmail = $("#edit-users").val();
+    const selectedUserId = $("#edit-users").val();
     const name = $("#edit-name").val();
     const password = $("#edit-password").val();
     const editBoneFiles = $("#edit-create-fiches").is(":checked");
     const editNews = $("#edit-create-news").is(":checked");
     const editUsers = $("#edit-create-users").is(":checked");
 
-    if (!selectedUserEmail) {
+    if (!selectedUserId) {
       $("#error-message").text("Si us plau, selecciona un usuari a editar.").show();
+      $("#success-message").hide();
       return;
     }
     if (!name || !password) {
       $("#error-message").text("El nom i la contrasenya no poden estar buits.").show();
+      $("#success-message").hide();
       return;
     }
 
-    const userData = { name, password, edit_bone_files: editBoneFiles, edit_news: editNews, edit_users: editUsers };
+    const salt = generateSalt();
+    const encryptedPassword = encryptPassword(password, salt);
+    const userData = { 
+      name, 
+      password: encryptedPassword, 
+      salt: salt, 
+      edit_bone_files: editBoneFiles, 
+      edit_news: editNews, 
+      edit_users: editUsers 
+    };
 
-    await editUser(selectedUserEmail, userData);
-    $("#error-message").text("Usuari editat correctament!").css("color", "green").show();
+    await editUser(selectedUserId, userData);
+    $("#error-message").hide();
+    $("#success-message").text("Usuari editat correctament!").css("color", "green").show();
   });
 });

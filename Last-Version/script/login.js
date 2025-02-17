@@ -1,52 +1,16 @@
-import { createUser, getUserByEmail } from "./firebase.js";
+import { getUserByEmail } from "./firebase.js";
 
 $(document).ready(() => {
-  const DEFAULT_USER = {
-    id: 1,
-    name: "admin",
-    email: "desenvolupador@iesjoanramis.org",
-    password: "Ramis.20", 
-    is_admin: true,
-    edit_users: true,
-    edit_news: true,
-    edit_bone_files: true,
-    active: true,
-    is_first_login: true,
-  };
-  console.log("DEFAULT_USER", DEFAULT_USER);
-
-  // 🔹 Función para generar un salt único
-  function generateSalt() {
-    return CryptoJS.lib.WordArray.random(128 / 8).toString(CryptoJS.enc.Base64);
+  // Si ya existe un usuario logueado en localStorage, redirigir inmediatamente.
+  const currentUser = localStorage.getItem("currentUser");
+  if (currentUser) {
+    const user = JSON.parse(currentUser);
+    window.location.href = user.is_first_login 
+      ? "../html/change_password.html" 
+      : "../html/admin_page.html";
+    return;
   }
 
-  // 🔹 Función para cifrar la contraseña con un salt
-  function encryptPassword(password, salt) {
-    const saltedPassword = password + salt;
-    return CryptoJS.SHA256(saltedPassword).toString();
-  }
-
-  // 🔹 Inicializa el usuario por defecto en Firestore si no existe
-  const initializeDefaultUser = async () => {
-    const existingUser = await getUserByEmail(DEFAULT_USER.email);
-
-    if (!existingUser) {
-      const salt = generateSalt();
-      const encryptedPassword = encryptPassword(DEFAULT_USER.password, salt);
-
-      const newUser = {
-        ...DEFAULT_USER,
-        password: encryptedPassword, 
-        salt: salt, 
-      };
-
-      await createUser(newUser);
-    }
-  };
-
-  initializeDefaultUser(); // Llamamos a la función al cargar la página
-
-  // 🔹 Gestiona el formulario de inicio de sesión
   $("#login").on("submit", async (e) => {
     e.preventDefault();
 
@@ -65,6 +29,12 @@ $(document).ready(() => {
     if (!user) {
       loginMessage.text("Usuario no encontrado.").css("color", "red").show();
       return;
+    }
+
+    // Función para encriptar la contraseña usando el salt del usuario almacenado en Firebase.
+    function encryptPassword(password, salt) {
+      const saltedPassword = password + salt;
+      return CryptoJS.SHA256(saltedPassword).toString();
     }
 
     const enteredEncryptedPassword = encryptPassword(password, user.salt);

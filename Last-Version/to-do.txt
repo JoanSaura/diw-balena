@@ -1,5 +1,3 @@
- - Login desde Firebase
- - Encriptar contraseña edit
  - Crear noticias
  - Editar noticias
  - Leer las noticias
