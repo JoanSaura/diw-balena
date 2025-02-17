@@ -1,7 +1,6 @@
 import { getUserByEmail } from "./firebase.js";
 
 $(document).ready(() => {
-  // Si ya existe un usuario logueado en localStorage, redirigir inmediatamente.
   const currentUser = localStorage.getItem("currentUser");
   if (currentUser) {
     const user = JSON.parse(currentUser);
@@ -31,7 +30,6 @@ $(document).ready(() => {
       return;
     }
 
-    // Función para encriptar la contraseña usando el salt del usuario almacenado en Firebase.
     function encryptPassword(password, salt) {
       const saltedPassword = password + salt;
       return CryptoJS.SHA256(saltedPassword).toString();

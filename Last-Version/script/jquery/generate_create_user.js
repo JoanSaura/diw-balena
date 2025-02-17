@@ -53,7 +53,6 @@ $(document).ready(function () {
 
     let errorMessage = '';
 
-    // Validació dels camps del formulari
     if (!name) {
       errorMessage = 'El nom no pot estar buit.';
     } else if (!email) {
