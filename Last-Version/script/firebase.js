@@ -33,9 +33,8 @@ export const createUser = async (userData) => {
 
   if (!userSnap.exists()) {
     await setDoc(userRef, userData);
-    console.log("Usuario creado en Firestore");
   } else {
-    console.log("El usuario ya existe");
+    console.log("L'usuario ja existeix");
   }
 };
 
@@ -45,7 +44,7 @@ export const editUser = async (email, newUserData) => {
   const userSnap = await getDoc(userRef);
   
   if (!userSnap.exists()) {
-    console.log("Usuario no encontrado");
+    console.log("Usuari no trobat");
     return;
   }
 
@@ -56,7 +55,7 @@ export const editUser = async (email, newUserData) => {
   };
 
   await setDoc(userRef, updatedUserData, { merge: true });
-  console.log("Usuario editado correctamente en Firestore");
+  console.log("Usuari editat correctament");
 };
 
 export const deleteUser = async (email) => {
@@ -64,12 +63,11 @@ export const deleteUser = async (email) => {
   const userSnap = await getDoc(userRef);
 
   if (!userSnap.exists()) {
-    console.log("Usuario no encontrado");
+    console.log("Usuari no trobat");
     return;
   }
 
   await deleteDoc(userRef);
-  console.log("Usuario eliminado correctamente de Firestore");
 };
 
 export const changePassword = async (email, newPassword, newSalt) => {
@@ -77,7 +75,7 @@ export const changePassword = async (email, newPassword, newSalt) => {
 
   const userSnap = await getDoc(userRef);
   if (!userSnap.exists()) {
-    console.log("Usuario no encontrado");
+    console.log("Usuari no trobat");
     return;
   }
 
@@ -88,6 +86,22 @@ export const changePassword = async (email, newPassword, newSalt) => {
     salt: newSalt,
     is_first_login: false,  
   }, { merge: true });
+};
 
-  console.log("Contraseña actualizada y is_first_login actualizado en Firestore");
+export const getNews = async () => {
+  const newsCollection = collection(db, "news");
+  const newsSnapshot = await getDocs(newsCollection);
+  return newsSnapshot.docs.map(doc => doc.data());
+};
+
+export const createNews = async (id, title, content) => {
+  const newsData = {
+    id,
+    title,
+    contenido: content
+  };
+
+  await setDoc(doc(db, "news", id.toString()), newsData);
+  console.log("Noticia guardada correctamente:", newsData);
+  return newsData;
 };

@@ -1,205 +1,174 @@
-$(document).ready(function () {
+import { createNews, getNews } from "../firebase.js";
+
+$(document).ready(async function () {
     const addRowBtn = $('#add-row');
     const paragraphTool = $('.tool-paragraph');
     const imageTool = $('.tool-img');
     const currentUser = JSON.parse(localStorage.getItem("currentUser")) || { name: 'Usuari' };
     let editingNewsId = null;
-    let originalContent = [];
+
     function setDateAndUser() {
-      const currentDate = new Date();
-      const formattedDate = currentDate.toLocaleDateString();
-      $('#news-date').text(formattedDate);
-      $('#news-username').text('Autor: ' + currentUser.name);
+        const currentDate = new Date();
+        $('#news-date').text(currentDate.toLocaleDateString());
+        $('#news-username').text('Autor: ' + currentUser.name);
     }
     setDateAndUser();
+
     paragraphTool.attr("data-type", "paragraph");
     imageTool.attr("data-type", "image");
+
     paragraphTool.draggable({ helper: "clone", revert: "invalid" });
     imageTool.draggable({ helper: "clone", revert: "invalid" });
+
     function initializeDroppable() {
-      $(".blanck-content").droppable({
-        accept: ".tool-paragraph, .tool-img",
-        drop: function (event, ui) {
-          const type = ui.draggable.data("type");
-          const isDoubleElement = $(this).hasClass("double-element");
-          const currentElements = $(this).children(".content-element").length;
-          if ((isDoubleElement && currentElements >= 2) || (!isDoubleElement && currentElements >= 1)) {
-            alert("Aquest espai ja té el nombre màxim d'elements permès.");
-            return;
-          }
-          let newElement;
-          if (type === "paragraph") {
-            newElement = `<div class="content-element"><textarea class="editable"></textarea></div>`;
-          } else if (type === "image") {
-            newElement = `<div class="content-element"><input type="file" accept="image/*" onchange="loadImage(event, this)" /><img src="" alt="Imatge" style="display: none; max-width: 100%; height: auto;"></div>`;
-          }
-          $(this).find('h3').remove();
-          $(this).removeClass("blanck-content");
-          $(this).append(newElement);
-          bindDeleteButtons();
-        }
-      });
+        $(".blanck-content").droppable({
+            accept: ".tool-paragraph, .tool-img",
+            drop: function (event, ui) {
+                const type = ui.draggable.data("type");
+                const isDoubleElement = $(this).hasClass("double-element");
+                const currentElements = $(this).children(".content-element").length;
+                
+                if ((isDoubleElement && currentElements >= 2) || (!isDoubleElement && currentElements >= 1)) {
+                    alert("Aquest espai ja té el nombre màxim d'elements permès.");
+                    return;
+                }
+
+                let newElement = `<div class="content-element"></div>`;
+
+                if (type === "paragraph") {
+                    newElement = `<div class="content-element"><textarea class="editable"></textarea></div>`;
+                } else if (type === "image") {
+                    newElement = `<div class="content-element">
+                                    <input type="file" accept="image/*" onchange="loadImage(event, this)" />
+                                    <img src="" alt="Imatge" style="display: none; max-width: 100%; height: auto;">
+                                  </div>`;
+                }
+
+                $(this).find('h3').remove();
+                $(this).removeClass("blanck-content");
+                $(this).append(newElement);
+                bindDeleteButtons();
+            }
+        });
     }
+
     function bindDeleteButtons() {
-      $(".delete-btn").off("click").on("click", function () {
-        const parent = $(this).closest(".content-element");
-        const container = parent.closest(".blanck-content");
-        parent.remove();
-        if (container.children(".content-element").length === 0) {
-          container.addClass("blanck-content");
-          container.append('<h3>Espai en blanc</h3>');
-        }
-      });
+        $(".delete-btn").off("click").on("click", function () {
+            const parent = $(this).closest(".content-element");
+            const container = parent.closest(".blanck-content");
+            parent.remove();
+            if (container.children(".content-element").length === 0) {
+                container.addClass("blanck-content");
+                container.append('<h3>Espai en blanc</h3>');
+            }
+        });
     }
+
     function loadImage(event, input) {
-      const file = input.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function (e) {
-          $(input).siblings("img").attr("src", e.target.result).show();
-        };
-        reader.readAsDataURL(file);
-      }
-    }
-    function populateNewsDropdown() {
-      const newsDropdown = $('#news-dropdown');
-      const publishedNews = JSON.parse(localStorage.getItem("publishedNews")) || [];
-      newsDropdown.empty();
-      newsDropdown.append('<option value="">Tria una noticia...</option>');
-      publishedNews.forEach(news => {
-        const option = $('<option></option>').val(news.id).text(news.title);
-        newsDropdown.append(option);
-      });
-    }
-    function loadNewsContent(newsId) {
-      const publishedNews = JSON.parse(localStorage.getItem("publishedNews")) || [];
-      const news = publishedNews.find(n => n.id == newsId);
-      if (!news) return;
-      editingNewsId = news.id;
-      $('#news-title').val(news.title);
-      $('#news-body').empty();
-      originalContent = JSON.parse(JSON.stringify(news.content));
-      news.content.forEach(row => {
-        const rowElement = $('<section class="single-row"></section>');
-        row.forEach(column => {
-          const newElement = $('<div class="content-element"></div>');
-          column.forEach(element => {
-            if (element.type === "paragraph") {
-              const textArea = $('<textarea class="editable"></textarea>').val(element.content);
-              newElement.append(textArea);
-            } else if (element.type === "image") {
-              const imgInput = $('<input type="file" accept="image/*" onchange="loadImage(event, this)" />');
-              const img = $('<img src="' + element.src + '" alt="Imatge" style="max-width: 100%; height: auto;">');
-              newElement.append(imgInput).append(img);
-            }
-          });
-          rowElement.append(newElement);
-        });
-        if (rowElement.find('.content-element').length === 0) {
-          const emptyElement = $('<div class="content-element blanck-content"><h3>Espai en blanc</h3></div>');
-          rowElement.append(emptyElement);
+        const file = input.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                $(input).siblings("img").attr("src", e.target.result).show();
+            };
+            reader.readAsDataURL(file);
         }
-        $('#news-body').append(rowElement);
-      });
-      initializeDroppable();
-      bindDeleteButtons();
     }
-    $('#news-dropdown').change(function () {
-      const selectedNewsId = $(this).val();
-      if (selectedNewsId) {
-        loadNewsContent(selectedNewsId);
-      }
-    });
+
     addRowBtn.click(function () {
-      const choice = parseInt($('#choice').val());
-      const newsContainer = $('#news-body');
-      if (choice === 1) {
-        const singleRow = $('<section class="single-row"></section>');
-        const singleElement = $('<div class="single-element blanck-content"><h3>Espai en blanc</h3></div>');
-        const eraseButton = $('<button class="erase-content">Elimina fila</button>');
-        singleRow.append(singleElement);
-        newsContainer.append(singleRow).append(eraseButton);
-        eraseButton.click(function () {
-          singleRow.remove();
-          $(this).remove();
-        });
-      } else if (choice === 2) {
-        const doubleRow = $('<section class="double-row"></section>');
-        const element1 = $('<div class="double-element blanck-content"><h3>Espai en blanc</h3></div>');
-        const element2 = $('<div class="double-element blanck-content"><h3>Espai en blanc</h3></div>');
-        const eraseButton = $('<button class="erase-content">Elimina fila</button>');
-        doubleRow.append(element1).append(element2);
-        newsContainer.append(doubleRow).append(eraseButton);
-        eraseButton.click(function () {
-          doubleRow.remove();
-          $(this).remove();
-        });
-      }
-      initializeDroppable();
-      bindDeleteButtons();
+        const choice = parseInt($('#choice').val());
+        const newsContainer = $('#news-body');
+
+        let row;
+        if (choice === 1) {
+            row = $('<section class="single-row"></section>');
+            row.append('<div class="single-element blanck-content"><h3>Espai en blanc</h3></div>');
+        } else if (choice === 2) {
+            row = $('<section class="double-row"></section>');
+            row.append('<div class="double-element blanck-content"><h3>Espai en blanc</h3></div>');
+            row.append('<div class="double-element blanck-content"><h3>Espai en blanc</h3></div>');
+        }
+
+        if (row) {
+            const eraseButton = $('<button class="erase-content">Elimina fila</button>');
+            newsContainer.append(row).append(eraseButton);
+            eraseButton.click(function () {
+                row.remove();
+                $(this).remove();
+            });
+
+            initializeDroppable();
+            bindDeleteButtons();
+        }
     });
-    $("#publish").on("click", function () {
-      const title = $('#news-title').val().trim();
-      const rows = $(".single-row, .double-row");
-      let hasParagraph = false;
-      const rowsData = [];
-      rows.each(function () {
-        const row = [];
-        $(this).find(".single-element, .double-element").each(function () {
-          const column = [];
-          $(this).children(".content-element").each(function () {
-            if ($(this).find("textarea").length) {
-              const textContent = $(this).find("textarea").val().trim();
-              if (textContent) {
-                hasParagraph = true;
-                column.push({
-                  type: "paragraph",
-                  content: textContent
+
+    $("#publish").on("click", async function () {
+        const title = $('#news-title').val().trim();
+        const rows = $(".single-row, .double-row");
+        let hasParagraph = false;
+        const newsContent = {};
+
+        rows.each(function (rowIndex) {
+            if ($(this).hasClass("single-row")) {
+                const singleElement = [];
+                $(this).find(".single-element .content-element").each(function (index) {
+                    let elementData = {};
+                    if ($(this).find("textarea").length) {
+                        elementData = {
+                            type: "paragraph",
+                            content: $(this).find("textarea").val().trim()
+                        };
+                        hasParagraph = true;
+                    } else if ($(this).find("img").length) {
+                        elementData = {
+                            type: "image",
+                            src: $(this).find("img").attr("src")
+                        };
+                    }
+                    singleElement.push(elementData);
                 });
-              }
-            } else if ($(this).find("img").length) {
-              const imgSrc = $(this).find("img").attr("src");
-              if (imgSrc) {
-                column.push({
-                  type: "image",
-                  src: imgSrc
-                });
-              }
+                newsContent[`single-element-${rowIndex}`] = singleElement;
             }
-          });
-          row.push(column);
+
+            if ($(this).hasClass("double-row")) {
+                const doubleElements = {};
+                $(this).find(".double-element").each(function (columnIndex) {
+                    const column = [];
+                    $(this).find(".content-element").each(function (index) {
+                        let elementData = {};
+                        if ($(this).find("textarea").length) {
+                            elementData = {
+                                type: "paragraph",
+                                content: $(this).find("textarea").val().trim()
+                            };
+                            hasParagraph = true;
+                        } else if ($(this).find("img").length) {
+                            elementData = {
+                                type: "image",
+                                src: $(this).find("img").attr("src")
+                            };
+                        }
+                        column.push(elementData);
+                    });
+                    doubleElements[`column-${columnIndex}`] = column;
+                });
+                newsContent[`double-element-${rowIndex}`] = doubleElements;
+            }
         });
-        rowsData.push(row);
-      });
-      if (!title) {
-        alert("El títol és obligatori per publicar la notícia.");
-        return;
-      }
-      if (!hasParagraph) {
-        alert("És necessari com a mínim un element de text per publicar la notícia.");
-        return;
-      }
-      const newsID = editingNewsId || new Date().getTime();
-      const author = currentUser.name;
-      const creationDate = new Date().toLocaleDateString();
-      const newsData = {
-        id: newsID,
-        title: title,
-        author: author,
-        creationDate: creationDate,
-        content: rowsData
-      };
-      const publishedNews = JSON.parse(localStorage.getItem("publishedNews")) || [];
-      const newsIndex = publishedNews.findIndex(news => news.id === newsID);
-      if (newsIndex > -1) {
-        publishedNews[newsIndex] = newsData;
-      } else {
-        publishedNews.push(newsData);
-      }
-      localStorage.setItem("publishedNews", JSON.stringify(publishedNews));
-      alert("Notícia publicada o actualitzada amb èxit!");
-      populateNewsDropdown();
+
+        if (!title) {
+            alert("El títol és obligatori per publicar la notícia.");
+            return;
+        }
+        if (!hasParagraph) {
+            alert("És necessari com a mínim un element de text per publicar la notícia.");
+            return;
+        }
+
+        const newsID = editingNewsId || new Date().getTime();
+        await createNews(newsID, title, newsContent);
+        alert("Notícia publicada o actualitzada amb èxit!");
     });
-    populateNewsDropdown();
-  });
-  
+
+    initializeDroppable();
+});
