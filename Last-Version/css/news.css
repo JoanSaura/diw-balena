@@ -5,7 +5,7 @@
     top: 50%;
     width: 65%;
     height: auto;
-    padding: 50px;
+    padding: 60px;
     background-color: white;
     transform: translate(-50%, -50%);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -140,4 +140,14 @@
 #news-header-info {
   display: flex;
   justify-content: space-between;
+}
+.delete-news-btn {
+  background-color: rgb(141, 67, 67);
+  border-radius: 15px;
+  padding: 6px;
+}
+.delete-news-btn:hover {
+  background-color: #000;
+  color: #bebdbd;
+  transition: 0.5s;
 }

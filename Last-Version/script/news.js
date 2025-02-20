@@ -1,147 +1,172 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const newsContainer = document.querySelector('#news-container');
-  const body = document.querySelector('body');
-  const createNewsButton = document.querySelector('#create-news-btn'); 
+import { getNews, deleteNews } from "./firebase.js"; 
 
-  const currentUser = JSON.parse(localStorage.getItem('currentUser')); 
+$(document).ready(async function () {
+    const newsContainer = $('#news-container');
+    const body = $('body');
+    const currentUser = JSON.parse(localStorage.getItem('currentUser')) || {};
 
-  const publishedNews = JSON.parse(localStorage.getItem('publishedNews')) || [];
+    async function renderNewsPosts() {
+        newsContainer.empty(); 
+        
+        try {
+            const publishedNews = await getNews();
 
-  if (!currentUser.edit_news && createNewsButton) {
-    createNewsButton.style.display = 'none';
-  }
+            publishedNews.forEach(news => {
+                const post = createNewsPost(news);
+                newsContainer.append(post);
+                post.on('click', () => openFullscreenModal(news));
+            });
+        } catch (error) {
+            console.error("Error obtenint les notícies des de Firebase:", error);
+        }
+    }
 
-  console.log(publishedNews);
+    function createNewsPost(news) {
+        const post = $('<div class="news-post"></div>');
+        post.attr('data-id', news.id);
 
-  function renderNewsPosts() {
-    newsContainer.innerHTML = '';
-    publishedNews.forEach(news => {
-      const post = createNewsPost(news);
-      newsContainer.appendChild(post);
-      
-      post.addEventListener('click', () => openFullscreenModal(news));
-    });
-  }
+        const imageSrc = getImageSrc(news.content);
+        const author = news.author || 'Desconegut';
+        const creationDate = news.creationDate || 'Data no disponible';
+        const title = news.title || 'Sense títol';
 
-  function createNewsPost(news) {
-    const post = document.createElement('div');
-    post.classList.add('news-post');
-    post.setAttribute('data-id', news.id);
-
-    const imageSrc = getImageSrc(news.content);
-
-    post.innerHTML = `
-      ${imageSrc ? `<img src="${imageSrc}" alt="Imatge de la notícia" class="news-thumbnail" />` : ''}
-      <div class="news-details">
-        <h1 class="news-title">${news.title}</h1>
-        <p class="username">Autor: ${news.author}</p>
-        <p class="date">${news.creationDate}</p>
-        <p class="summary">${getSummary(news.content)}</p>
-      </div>
-    `;
-
-    return post;
-  }
-
-  function getImageSrc(content) {
-    return content.find(row => row[0]?.type === 'image')?.[0]?.src || null;
-  }
-
-  function getSummary(content) {
-    const firstContent = content[0]?.[0]?.content;
-    return firstContent ? firstContent.substring(0, 100) : '...';
-  }
-
-  function openFullscreenModal(news) {
-    const overlay = document.createElement('div');
-    overlay.classList.add('overlay');
-
-    const fullscreenContainer = document.createElement('div');
-    fullscreenContainer.classList.add('fullscreen-news');
-
-    const imageSrc = getImageSrc(news.content);
-
-    fullscreenContainer.innerHTML = `
-      <span class="close-button">&times;</span>
-      <div class="content-wrapper">
-        ${imageSrc ? `<img src="${imageSrc}" alt="Imatge de la notícia" />` : ''}
-        <div class="news-content">
-          <h1 class="news-title text-3xl">${news.title}</h1>
-          <p class="username">Autor: ${news.author}</p>
-          <p class="date">${news.creationDate}</p>
-          <div class="full-content">
-            ${generateContentHTML(news.content)}
-          </div>
-          ${currentUser.edit_news ? `
-            <div class="action-buttons">
-              <button class="delete-news-btn">Eliminar</button>
+        const postContent = `
+            ${imageSrc ? `<img src="${imageSrc}" alt="Imatge de la notícia" class="news-thumbnail" />` : ''}
+            <div class="news-details">
+                <p class="news-title">${title}</p>
+                <p class="username">Autor: ${author}</p>
+                <p class="date">${creationDate}</p>
+                <p class="summary">${getSummary(news.content)}</p>
             </div>
-          ` : ''}
-        </div>
-      </div>
-    `;
-    
-    body.appendChild(overlay);
-    body.appendChild(fullscreenContainer);
-    body.classList.add('no-scroll');
+        `;
+        post.html(postContent);
 
-    const closeButton = fullscreenContainer.querySelector('.close-button');
-    closeButton.addEventListener('click', closeModal);
-    overlay.addEventListener('click', closeModal);
-
-    if (currentUser.edit_news) {
-      const deleteButton = fullscreenContainer.querySelector('.delete-news-btn');
-
-      if (deleteButton) {
-        deleteButton.addEventListener('click', () => deleteNews(news.id));
-      }
+        return post;
     }
 
-    function closeModal() {
-      body.removeChild(fullscreenContainer);
-      body.removeChild(overlay);
-      body.classList.remove('no-scroll');
-    }
-  }
+    function getImageSrc(content) {
+        if (!content || typeof content !== 'object') return null;
 
-  function generateContentHTML(content) {
-    return content
-      .map(row =>
-        row
-          .map(column =>
-            column
-              .map(element => {
-                if (element.type === 'paragraph') {
-                  return `<p>${element.content}</p>`;
-                } else if (element.type === 'image') {
-                  return `<img src="${element.src}" alt="Imatge" style="max-width: 100%;" />`;
+        for (const key in content) {
+            if (Array.isArray(content[key])) {
+                for (const element of content[key]) {
+                    if (element.type === 'image' && element.src) {
+                        return element.src;
+                    }
                 }
-                return '';
-              })
-              .join('')
-          )
-          .join('')
-      )
-      .join('<hr>');
-  }
-
-  function deleteNews(newsId) {
-    if (confirm('Estàs segur que vols eliminar aquesta notícia?')) {
-      const index = publishedNews.findIndex(news => news.id === newsId);
-      if (index !== -1) {
-        publishedNews.splice(index, 1);
-        localStorage.setItem('publishedNews', JSON.stringify(publishedNews));
-        alert('Notícia eliminada correctament.');
-        renderNewsPosts();
-
-        const overlay = document.querySelector('.overlay');
-        const fullscreenContainer = document.querySelector('.fullscreen-news');
-        if (overlay) overlay.remove();
-        if (fullscreenContainer) fullscreenContainer.remove();
-        body.classList.remove('no-scroll');
-      }
+            }
+        }
+        return null;
     }
-  }
 
-  renderNewsPosts();
+    function getSummary(content) {
+        if (!content || typeof content !== 'object') return '...';
+
+        for (const key in content) {
+            if (Array.isArray(content[key])) {
+                for (const element of content[key]) {
+                    if (element.type === 'paragraph' && element.content) {
+                        return element.content.substring(0, 100);
+                    }
+                }
+            }
+        }
+        return '...';
+    }
+
+    function openFullscreenModal(news) {
+        const overlay = $('<div class="overlay"></div>');
+        const fullscreenContainer = $('<div class="fullscreen-news"></div>');
+
+        const imageSrc = getImageSrc(news.content);
+        const author = news.author || 'Desconegut';
+        const creationDate = news.creationDate || 'Data no disponible';
+
+        fullscreenContainer.html(`
+            <span class="close-button">&times;</span>
+            <div class="content-wrapper">
+                ${imageSrc ? `<img src="${imageSrc}" alt="Imatge de la notícia" />` : ''}
+                <div class="news-content">
+                    <p class="news-title">${news.title}</p>
+                    <p class="username">Autor: ${author}</p>
+                    <p class="date">${creationDate}</p>
+                    <div class="full-content">
+                        ${generateContentHTML(news.content)}
+                    </div>
+                    ${currentUser.edit_news ? `
+                        <div class="action-buttons">
+                            <button class="delete-news-btn bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+                                Eliminar
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+            </div>
+        `);
+
+        body.append(overlay).append(fullscreenContainer);
+        body.addClass('no-scroll');
+
+        const closeButton = fullscreenContainer.find('.close-button');
+        closeButton.on('click', closeModal);
+        overlay.on('click', closeModal);
+
+        if (currentUser.edit_news) {
+            const deleteButton = fullscreenContainer.find('.delete-news-btn');
+            deleteButton.on('click', async () => {
+                const confirmDelete = confirm("Estàs segur que vols eliminar aquesta notícia?");
+                if (confirmDelete) {
+                    await deleteNews(news.id);
+                    closeModal();
+                    renderNewsPosts();
+                    alert("Notícia eliminada correctament.");
+                }
+            });
+        }
+
+        function closeModal() {
+            body.removeClass('no-scroll');
+            overlay.remove();
+            fullscreenContainer.remove();
+        }
+    }
+
+    function generateContentHTML(content) {
+        if (!content || typeof content !== 'object') return '';
+    
+        let html = '';
+        
+        for (const key in content) {
+            if (Array.isArray(content[key])) {
+                content[key].forEach(element => {
+                    if (element.type === 'paragraph' && element.content) {
+                        html += `<p>${element.content}</p>`;
+                    } else if (element.type === 'image' && element.src) {
+                        html += `<img src="${element.src}" alt="Imatge" style="max-width: 100%;" />`;
+                    }
+                });
+            } 
+            
+            // Manejar elementos tipo "double-element-*"
+            else if (typeof content[key] === 'object') {
+                for (const subKey in content[key]) {
+                    if (Array.isArray(content[key][subKey])) {
+                        content[key][subKey].forEach(element => {
+                            if (element.type === 'paragraph' && element.content) {
+                                html += `<p>${element.content}</p>`;
+                            } else if (element.type === 'image' && element.src) {
+                                html += `<img src="${element.src}" alt="Imatge" style="max-width: 100%;" />`;
+                            }
+                        });
+                    }
+                }
+            }
+        }
+    
+        return html;
+    }
+        
+    
+
+    await renderNewsPosts();
 });

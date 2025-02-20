@@ -27,7 +27,7 @@ $(document).ready(async function () {
                 const type = ui.draggable.data("type");
                 const isDoubleElement = $(this).hasClass("double-element");
                 const currentElements = $(this).children(".content-element").length;
-                
+
                 if ((isDoubleElement && currentElements >= 2) || (!isDoubleElement && currentElements >= 1)) {
                     alert("Aquest espai ja té el nombre màxim d'elements permès.");
                     return;
@@ -165,8 +165,11 @@ $(document).ready(async function () {
             return;
         }
 
+        const currentDate = new Date();
+        const author = currentUser.name;
+
         const newsID = editingNewsId || new Date().getTime();
-        await createNews(newsID, title, newsContent);
+        await createNews(newsID, title, newsContent, author, currentDate.toLocaleDateString());
         alert("Notícia publicada o actualitzada amb èxit!");
     });
 

@@ -1,3 +1,2 @@
- - Crear noticias
  - Editar noticias
- - Leer las noticias
+ - Leer las imagenes
