@@ -39,7 +39,7 @@ $(document).ready(async function () {
                     newElement = `<div class="content-element"><textarea class="editable"></textarea></div>`;
                 } else if (type === "image") {
                     newElement = `<div class="content-element">
-                                    <input type="file" accept="image/*" onchange="loadImage(event, this)" />
+                                    <input type="file" accept="image/*" class="image-input"/>
                                     <img src="" alt="Imatge" style="display: none; max-width: 100%; height: auto;">
                                   </div>`;
                 }
@@ -48,6 +48,7 @@ $(document).ready(async function () {
                 $(this).removeClass("blanck-content");
                 $(this).append(newElement);
                 bindDeleteButtons();
+                bindImageUpload();
             }
         });
     }
@@ -64,15 +65,20 @@ $(document).ready(async function () {
         });
     }
 
-    function loadImage(event, input) {
-        const file = input.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                $(input).siblings("img").attr("src", e.target.result).show();
-            };
-            reader.readAsDataURL(file);
-        }
+    function bindImageUpload() {
+        $(".image-input").off("change").on("change", function (event) {
+            const file = event.target.files[0];
+            const imgElement = $(this).siblings("img");
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    imgElement.attr("src", e.target.result).show();
+                    $(event.target).attr("data-base64", e.target.result); // Guarda el base64 en l'input correctament
+                };
+                reader.readAsDataURL(file);
+            }
+        });
     }
 
     addRowBtn.click(function () {
@@ -120,10 +126,13 @@ $(document).ready(async function () {
                         };
                         hasParagraph = true;
                     } else if ($(this).find("img").length) {
-                        elementData = {
-                            type: "image",
-                            src: $(this).find("img").attr("src")
-                        };
+                        const base64Image = $(this).find(".image-input").attr("data-base64");
+                        if (base64Image) {
+                            elementData = {
+                                type: "image",
+                                src: base64Image
+                            };
+                        }
                     }
                     singleElement.push(elementData);
                 });
@@ -143,10 +152,13 @@ $(document).ready(async function () {
                             };
                             hasParagraph = true;
                         } else if ($(this).find("img").length) {
-                            elementData = {
-                                type: "image",
-                                src: $(this).find("img").attr("src")
-                            };
+                            const base64Image = $(this).find(".image-input").attr("data-base64");
+                            if (base64Image) {
+                                elementData = {
+                                    type: "image",
+                                    src: base64Image
+                                };
+                            }
                         }
                         column.push(elementData);
                     });
@@ -167,8 +179,8 @@ $(document).ready(async function () {
 
         const currentDate = new Date();
         const author = currentUser.name;
-
         const newsID = editingNewsId || new Date().getTime();
+
         await createNews(newsID, title, newsContent, author, currentDate.toLocaleDateString());
         alert("Notícia publicada o actualitzada amb èxit!");
     });

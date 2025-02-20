@@ -151,3 +151,15 @@
   color: #bebdbd;
   transition: 0.5s;
 }
+.fullscreen-important-data p {
+  display: flex;
+  font-weight: bold;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.fullscreen-important-data span {
+  font-weight: bold;
+  margin-right: 10px;
+}
+
