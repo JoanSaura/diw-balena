@@ -125,7 +125,7 @@
     if (confirm("Estàs segur que vols eliminar aquesta notícia?")) {
         try {
             await deleteDoc(doc(db, "news", String(newsId)));  
-            alert("Notícia eliminada correctament.");
+            alert("Notícia eliminada correctament. per favor recarrega la pagina");
             location.reload(); 
         } catch (error) {
             console.error("Error eliminant la notícia:", error);
