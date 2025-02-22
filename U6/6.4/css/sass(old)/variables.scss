@@ -1,0 +1,107 @@
+@import url("https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
+
+$color-white: #ffffff;
+$color-black: #000000;
+$color-light-gray: #f0f0f0;
+$color-gray: #ccc;
+$color-dark-gray: #aaa6ca;
+$color-background: #fff8dc; 
+$color-button-bg: #1a1a2e;
+$color-button-hover-bg: #2e2e4e;
+$color-darker: rgb(12, 12, 34);
+
+$color-high-contrast-bg: #000000;
+$color-high-contrast-text: #ffffff;
+$color-low-contrast-bg: #f0f0f0;
+$color-low-contrast-text: #333333;
+
+$color-text: $color-black;
+$color-text-light: $color-light-gray;
+$color-text-dark: $color-dark-gray;
+
+$color-accent: #0080a7;
+$color-link: $color-accent;
+
+$gradient-header-mobile: linear-gradient(
+  0deg,
+  rgba(12, 12, 34, 1) 0%,
+  rgba(9, 41, 67, 1) 16%,
+  rgba(0, 126, 167, 1) 100%
+);
+
+$gradient-header-desktop: linear-gradient(
+  0deg,
+  rgba(12, 12, 34, 1) 0%,
+  rgba(9, 41, 67, 1) 41%,
+  rgba(0, 126, 167, 1) 100%
+);
+
+$gradient-button: linear-gradient(
+  90deg,
+  rgba(12, 12, 34, 1) 0%,
+  rgba(9, 41, 67, 1) 50%,
+  rgba(0, 126, 167, 1) 100%
+);
+
+$gradient-main-content: linear-gradient(
+  180deg,
+  rgba(255, 255, 255, 1) 0%,
+  rgba(240, 240, 240, 1) 100%
+);
+
+$font-size-base: 1rem;
+$font-size-small: 0.875rem;
+$font-size-medium: 1.125rem;
+$font-size-large: 1.2rem;
+$font-size-xlarge: 3rem;
+$font-size-title: 3.5rem;
+
+$font-size-accessible: 1.5em;
+
+$padding-small: 5px;
+$padding-medium: 10px;
+$padding-large: 15px;
+$padding-xlarge: 25px;
+
+$margin-small: 5px;
+$margin-medium: 10px;
+$margin-large: 15px;
+$margin-xlarge: 25px;
+
+$border-radius-small: 5px;
+$border-radius-medium: 10px;
+$border-radius-large: 15px;
+$border-radius-xlarge: 30px;
+$default-background: #ffffff;
+$default-text: #333333;
+
+$bg-grayscale: #d3d3d3;
+$text-grayscale: #2d2d2d;
+$border-grayscale: #a0a0a0;
+$nested-bg-grayscale: #e5e5e5;
+$nested-text-grayscale: #4a4a4a;
+$nested-border-grayscale: #b0b0b0;
+
+$bg-dark: #222;
+$text-dark: #e0e0e0;
+$header-footer-dark: #ffffff;
+
+$bg-light: #ffffff;
+$text-light: #000;
+$header-footer-light: #000;
+
+$bg-high-saturation: rgb(0, 191, 255);
+$text-high-saturation: #ffffff;
+$border-high-saturation: #ffab91;
+$header-footer-high-saturation: #ffffff;
+
+$bg-low-saturation: rgb(0, 111, 148);
+$text-low-saturation: #424242;
+$border-low-saturation: #bdbdbd;
+$header-footer-low-saturation: #757575;
+$header-footer-low-text: #e0e0e0;
+$color-text-dark: #000000; 
+$color-text-light: #ffffff; 

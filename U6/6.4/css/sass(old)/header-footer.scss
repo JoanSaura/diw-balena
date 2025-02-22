@@ -1,0 +1,364 @@
+@import 'variables';
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+@media (max-width: 650px) {
+  body {
+    background-color: $color-white;
+    overflow-x: hidden;
+  }
+
+  .logo-img-desk,
+  #header > h1,
+  #lateral {
+    display: none;
+  }
+
+  .logo-img-mob {
+    width: 130px;
+    height: auto;
+    justify-content: flex-start;
+  }
+
+  #mobile-menu {
+    background: $color-darker;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    width: 100%;
+  }
+
+  .mobile_button {
+    width: 100%;
+    color: $color-dark-gray;
+    padding: $padding-large;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  #center-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .sketchfab-embed-wrapper > iframe {
+    width: 500px;
+    height: 450px;
+  }
+
+  #main-content {
+    width: 100%;
+    padding: $padding-large;
+    box-sizing: border-box;
+  }
+
+  .post {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    font-size: $font-size-xlarge;
+  }
+
+  textarea,
+  .news-post,
+  .post {
+    font-size: $font-size-xlarge;
+  }
+}
+
+@media (min-width: 651px) {
+  body {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    justify-content: space-between;
+    min-height: 100vh;
+  }
+
+  .logo-img-mob,
+  .mobile_button {
+    display: none;
+  }
+
+  .logo-img-desk {
+    width: 160px;
+    height: 180px;
+  }
+
+  #center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  #main-content {
+    width: 70%;
+    padding: $padding-large;
+    border-radius: $border-radius-medium;
+    margin: auto;
+    background-color: $color-white;
+  }
+
+  .sketchfab-embed-wrapper > iframe {
+    width: 600px;
+    height: 500px;
+  }
+
+  #lateral {
+    left: 0;
+    width: 200px;
+    background-color: $color-light-gray;
+    display: grid;
+    padding: $padding-xlarge;
+    position: fixed;
+    top: 50%;
+    transform: translateY(-50%);
+    height: auto;
+    border-radius: 0 $border-radius-xlarge $border-radius-xlarge 0;
+    border: 2px solid $color-black;
+    box-sizing: border-box;
+    z-index: 1000;
+  }
+
+  .content-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: $color-white;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+
+  #lateral .link {
+    margin: $padding-large;
+    padding: $padding-medium;
+    font-size: $font-size-title;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    border: 2px solid $color-black;
+    text-align: center;
+  }
+
+  #lateral .link a {
+    text-decoration: none;
+    color: $color-black;
+    font-weight: bold;
+  }
+
+  #lateral .close {
+    position: absolute;
+    right: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $color-light-gray;
+    border-radius: 50%;
+    border: 2px solid $color-black;
+    cursor: pointer;
+  }
+
+  #lateral .close i {
+    font-size: 20px;
+  }
+
+  #login {
+    background-color: $color-white;
+  }
+}
+
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 $padding-medium;
+}
+
+#header > h1 {
+  color: $color-white;
+  font-family: "Gowun Batang", sans-serif;
+  text-align: center;
+  font-weight: bold;
+  flex: 1;
+}
+
+h2 {
+  font-family: "Lora", sans-serif;
+  text-align: center;
+  margin-top: $padding-large;
+  font-weight: bold;
+  flex: 1;
+}
+
+#user-cont {
+  border: 4px solid $color-white;
+  border-radius: $border-radius-xlarge;
+  padding: $padding-small;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 55px;
+  width: 55px;
+  cursor: pointer;
+
+  > .fa-user {
+    color: $color-white;
+    font-size: 50px;
+  }
+}
+
+#main-content,
+#login {
+  padding: $padding-large;
+}
+
+#main-content .title-sect {
+  margin-bottom: $padding-xlarge;
+}
+
+p,
+a {
+  font-family: "Nunito Sans", sans-serif;
+}
+
+p {
+  font-size: $font-size-large;
+  margin: $padding-large;
+}
+
+.sketchfab-embed-wrapper > iframe {
+  box-shadow: 5px 5px 5px 5px;
+}
+
+#assembly-info-display {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: auto;
+  gap: $padding-medium;
+}
+
+.assembly-pictures {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  overflow: hidden;
+}
+
+#assembly-info-display .assembly-pictures:nth-child(1) {
+  grid-column: 1 / -1;
+  height: 400px;
+}
+
+#assembly-info-display .assembly-pictures:nth-child(2) {
+  grid-column: 1 / span 3;
+  height: 300px;
+}
+
+#assembly-info-display .assembly-pictures:nth-child(3) {
+  grid-column: 4 / span 2;
+  height: 300px;
+}
+
+#assembly-info-display .assembly-pictures:nth-child(4) {
+  grid-column: 1 / span 2;
+  height: 200px;
+}
+
+#assembly-info-display .assembly-pictures:nth-child(5) {
+  grid-column: 3 / span 3;
+  height: 200px;
+}
+
+#assembly-info-display .assembly-pictures:nth-child(6) {
+  grid-column: 1 / span 5;
+  height: 250px;
+}
+
+.hidden-info {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: $color-white;
+  background-color: rgba($color-black, 0.7);
+  border-radius: $border-radius-small;
+  padding: $padding-medium;
+  z-index: 1;
+}
+
+.pic-author {
+  position: absolute;
+  bottom: $padding-small;
+  left: $padding-small;
+  color: $color-white;
+  font-size: $font-size-title;
+  background-color: rgba($color-black, 0.5);
+  border-radius: $border-radius-small;
+  padding: $padding-small $padding-medium;
+  z-index: 2;
+}
+
+#footer {
+  position: relative;
+  width: 100%;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $color-darker;
+}
+
+#footer-links {
+  display: flex;
+}
+
+#footer-links a,
+.author {
+  color: aliceblue;
+  text-decoration: none;
+  margin-left: $padding-medium;
+  margin-right: $padding-medium;
+}
+
+#login {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  gap: $padding-xlarge;
+}
+
+#login .login-label {
+  font-family: "Nunito Sans", sans-serif;
+}
+
+#login > input {
+  padding: $padding-xlarge;
+  border-radius: $border-radius-medium;
+}
+
+#login > .sumbit-login {
+  cursor: pointer;
+  border-radius: $border-radius-medium;
+  border: 2px solid $color-black;
+  background-color: $color-white;
+}
+
+#footer .footer-icon {
+  margin-right: $padding-small;
+}
