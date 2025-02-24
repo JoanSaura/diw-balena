@@ -23,13 +23,18 @@ $(document).ready(async function () {
     function createNewsPost(news) {
         const post = $('<div class="news-post"></div>');
         post.attr("data-id", news.id);
-
-        const imageSrc = getImageSrc(news.content);
+    
+        let imageSrc = getImageSrc(news.content);
+        if (!imageSrc) {
+            imageSrc = "../img/huesos-test.jpg"; 
+        }
+    
         const author = news.author || "Desconegut";
         const creationDate = news.creationDate || "Data no disponible";
         const title = news.title || "Sense títol";
-
+    
         const postContent = `
+            <img src="${imageSrc}" alt="Notícia imatge" class="new-thumbnail" />
             <div class="news-details">
                 <p class="news-title">${title}</p>
                 <p class="username">Autor: ${author}</p>
@@ -37,10 +42,12 @@ $(document).ready(async function () {
                 <p class="summary">${getSummary(news.content)}</p>
             </div>
         `;
+    
         post.html(postContent);
-
         return post;
     }
+    
+    
 
     function getImageSrc(content) {
         if (!content || typeof content !== "object") return null;
