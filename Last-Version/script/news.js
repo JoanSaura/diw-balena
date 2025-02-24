@@ -21,44 +21,29 @@ $(document).ready(async function () {
     }
 
     function createNewsPost(news) {
-        const post = $('<div class="news-post"></div>');
-        post.attr("data-id", news.id);
-    
-        let imageSrc = getImageSrc(news.content);
-        if (!imageSrc) {
-            imageSrc = "../img/huesos-test.jpg"; 
-        }
-    
-        const author = news.author || "Desconegut";
-        const creationDate = news.creationDate || "Data no disponible";
-        const title = news.title || "Sense títol";
-    
+        const post = $('<div class="news-post"></div>').attr("data-id", news.id);
+        const imageSrc = getImageSrc(news.content) || "../img/huesos-test.jpg";
+
         const postContent = `
             <img src="${imageSrc}" alt="Notícia imatge" class="new-thumbnail" />
             <div class="news-details">
-                <p class="news-title">${title}</p>
-                <p class="username">Autor: ${author}</p>
-                <p class="date">${creationDate}</p>
+                <p class="news-title">${news.title || "Sense títol"}</p>
+                <p class="username">Autor: ${news.author || "Desconegut"}</p>
+                <p class="date">${news.creationDate || "Data no disponible"}</p>
                 <p class="summary">${getSummary(news.content)}</p>
             </div>
         `;
-    
-        post.html(postContent);
-        return post;
+
+        return post.html(postContent);
     }
-    
-    
 
     function getImageSrc(content) {
         if (!content || typeof content !== "object") return null;
 
         for (const key in content) {
             if (Array.isArray(content[key])) {
-                for (const element of content[key]) {
-                    if (element.type === "image" && element.src) {
-                        return element.src;
-                    }
-                }
+                const imageElement = content[key].find(element => element.type === "image" && element.src);
+                if (imageElement) return imageElement.src;
             }
         }
         return null;
@@ -69,11 +54,8 @@ $(document).ready(async function () {
 
         for (const key in content) {
             if (Array.isArray(content[key])) {
-                for (const element of content[key]) {
-                    if (element.type === "paragraph" && element.content) {
-                        return element.content.substring(0, 100) + "...";
-                    }
-                }
+                const paragraphElement = content[key].find(element => element.type === "paragraph" && element.content);
+                if (paragraphElement) return paragraphElement.content.substring(0, 100) + "...";
             }
         }
         return "...";
@@ -90,13 +72,13 @@ $(document).ready(async function () {
         fullscreenContainer.html(`
             <span class="close-button">&times;</span>
             <div class="modal-content">
-                ${imageSrc ? `<img src="${imageSrc}" alt="Imatge de la notícia" class="modal-image"/>` : ''}
+                ${imageSrc ? `<img src="${imageSrc}" alt="Imatge de la notícia" class="content-image"/>` : ''}
                 <div class="news-content">
                     <div class="fullscreen-important-data">
                         <p>
-                            <span class="news-title">Titol : ${news.title}</span> | 
+                            <span class="news-title">Títol: ${news.title}</span> | 
                             <span class="username">Autor: ${author}</span> | 
-                            <span class="date">Escrita : ${creationDate}</span>
+                            <span class="date">Escrita: ${creationDate}</span>
                         </p>
                     </div>
                     <div class="full-content">
@@ -113,18 +95,14 @@ $(document).ready(async function () {
             </div>
         `);
 
-        body.append(overlay).append(fullscreenContainer);
-        body.addClass('modal-open');
+        body.append(overlay).append(fullscreenContainer).addClass('modal-open');
 
-        const closeButton = fullscreenContainer.find('.close-button');
-        closeButton.on('click', closeModal);
+        fullscreenContainer.find('.close-button').on('click', closeModal);
         overlay.on('click', closeModal);
 
         if (currentUser.edit_news) {
-            const deleteButton = fullscreenContainer.find('.delete-news-btn');
-            deleteButton.on('click', async () => {
-                const confirmDelete = confirm("Estàs segur que vols eliminar aquesta notícia?");
-                if (confirmDelete) {
+            fullscreenContainer.find('.delete-news-btn').on('click', async () => {
+                if (confirm("Estàs segur que vols eliminar aquesta notícia?")) {
                     await deleteNews(news.id);
                     closeModal();
                     renderNewsPosts();
@@ -147,33 +125,21 @@ $(document).ready(async function () {
 
         for (const key in content) {
             if (Array.isArray(content[key])) {
-                content[key].forEach((element) => {
+                content[key].forEach(element => {
                     if (element.type === "paragraph" && element.content) {
                         html += `<p class="content-paragraph">${element.content}</p>`;
-                    } else if (
-                        element.type === "image" &&
-                        element.src &&
-                        element.src !== mainImageSrc
-                    ) {
+                    } else if (element.type === "image" && element.src && element.src !== mainImageSrc) {
                         html += `<img src="${element.src}" alt="Imatge" class="content-image" />`;
                     }
                 });
             } else if (typeof content[key] === "object") {
-                for (const subKey in content[key]) {
-                    if (Array.isArray(content[key][subKey])) {
-                        content[key][subKey].forEach((element) => {
-                            if (element.type === "paragraph" && element.content) {
-                                html += `<p class="content-paragraph">${element.content}</p>`;
-                            } else if (
-                                element.type === "image" &&
-                                element.src &&
-                                element.src !== mainImageSrc
-                            ) {
-                                html += `<img src="${element.src}" alt="Imatge" class="content-image" />`;
-                            }
-                        });
+                Object.values(content[key]).flat().forEach(element => {
+                    if (element.type === "paragraph" && element.content) {
+                        html += `<p class="content-paragraph">${element.content}</p>`;
+                    } else if (element.type === "image" && element.src && element.src !== mainImageSrc) {
+                        html += `<img src="${element.src}" alt="Imatge" class="content-image" />`;
                     }
-                }
+                });
             }
         }
 

@@ -291,9 +291,6 @@ $(document).ready(async function () {
     initializeDroppable();
 
     //Esborrany, 
-    //Mejorar presentacion
-        // Detecte la primera imagen como miniatura
-        
     //Creacion de noticias con nuevos usuarios
     //Si no detecta usuarios no se carge la pagina
 });
