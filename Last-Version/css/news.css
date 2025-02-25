@@ -194,3 +194,16 @@
   font-weight: bold;
   margin-right: 10px;
 }
+#publish {
+  background-color: rgb(29, 96, 43);
+  margin-top: 10px;
+  padding: 15px;
+}
+@media (max-width: 650px) {
+  .news-post {
+    grid-template-columns: 1fr;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+}

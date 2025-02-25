@@ -92,29 +92,64 @@
     console.log("Contrasenya canviada correctament.");
   };
 
-  // Obtener noticias con autor y fecha
   export const getNews = async () => {
     const newsCollection = collection(db, "news");
     const newsSnapshot = await getDocs(newsCollection);
-    
-    console.log("Notícies recuperades:", newsSnapshot.docs.map(doc => doc.data()));
 
-    return newsSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-  };
+    const filteredNews = newsSnapshot.docs
+        .map(doc => ({ id: doc.id, ...doc.data() }))
+        .filter(news => news.status === true); 
 
-  export const createNews = async (id, title, content, author, creationDate) => {
+    console.log("Notícies publicades:", filteredNews);
+
+    return filteredNews;
+};
+
+
+  export const publishNews = async (id, title, content, author, creationDate) => {
     const newsData = {
       id,
       title,
       content,
-      author,         
-      creationDate    
+      author,
+      creationDate,
+      status: true
+    };
+  
+    await setDoc(doc(db, "news", id.toString()), newsData);
+    console.log("Notícia publicada correctament:", newsData);
+    return newsData;
+  };
+
+  export const saveDraft = async (id, title, content, author, creationDate) => {
+    const newsData = {
+      id,
+      title,
+      content,
+      author,
+      creationDate,
+      status: false
     };
 
     await setDoc(doc(db, "news", id.toString()), newsData);
-    console.log("Notícia guardada correctament:", newsData);
+    console.log("Esborrany guardat correctament:", newsData);
     return newsData;
-  };
+};
+
+export const getDrafts = async () => {
+  const newsCollection = collection(db, "news");
+  const newsSnapshot = await getDocs(newsCollection);
+
+  const drafts = newsSnapshot.docs
+    .map(doc => ({ id: doc.id, ...doc.data() }))
+    .filter(news => news.status === false); 
+
+  console.log("Esborranys:", drafts);
+
+  return drafts;
+};
+
+
 
   export const deleteNews = async (newsId) => {
     if (!newsId) {
