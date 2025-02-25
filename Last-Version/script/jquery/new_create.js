@@ -286,11 +286,75 @@ $(document).ready(async function () {
         }
     });
 
+$("#save-config").on("click", function () {
+    const title = $('#news-title').val().trim();
+    const newsContent = [];
+
+    $(".single-row, .double-row").each(function () {
+        const rowType = $(this).hasClass("single-row") ? "single" : "double";
+        let rowData = { type: rowType, columns: [] };
+
+        $(this).find(rowType === "single" ? ".single-element" : ".double-element").each(function () {
+            let columnData = [];
+
+            $(this).find(".content-element").each(function () {
+                const text = $(this).find("textarea").val()?.trim();
+                const imgSrc = $(this).find(".image-input").attr("data-base64");
+
+                if (text) columnData.push({ type: "paragraph", content: text });
+                if (imgSrc) columnData.push({ type: "image", src: imgSrc });
+            });
+
+            rowData.columns.push(columnData);
+        });
+
+        if (rowData.columns.length) newsContent.push(rowData);
+    });
+
+    localStorage.setItem("savedNewsConfig", JSON.stringify({ title, content: newsContent }));
+    alert("Configuració guardada correctament!");
+});
+
+$("#load-config").on("click", function () {
+    const savedConfig = JSON.parse(localStorage.getItem("savedNewsConfig"));
+    if (!savedConfig) return alert("No hi ha cap configuració guardada.");
+
+    $('#news-title').val(savedConfig.title);
+    $('#news-body').empty();
+
+    savedConfig.content.forEach(rowData => {
+        const row = $(`<section class="${rowData.type}-row"></section>`);
+
+        rowData.columns.forEach(column => {
+            const columnElement = $(`<div class="${rowData.type === 'single' ? 'single-element' : 'double-element'}"></div>`);
+
+            column.forEach(({ type, content, src }) => {
+                const contentDiv = $('<div class="content-element"></div>');
+                if (type === "paragraph") contentDiv.append(`<textarea class="editable">${content}</textarea>`);
+                if (type === "image") contentDiv.append(`
+                    <input type="file" accept="image/*" class="image-input" data-base64="${src}"/>
+                    <img src="${src}" alt="Imatge" style="display: block; max-width: 100%; height: auto;">
+                `);
+                columnElement.append(contentDiv);
+            });
+
+            row.append(columnElement);
+        });
+
+        row.append('<button class="erase-content">Elimina fila</button>');
+        $('#news-body').append(row);
+    });
+
+    initializeDroppable();
+    bindEraseButtons();
+    bindDeleteButtons();
+    bindImageUpload();
+
+});
     setDateAndUser();
     loadNewsIntoSelect();
     initializeDroppable();
 
-    //Esborrany, 
     //Creacion de noticias con nuevos usuarios
     //Si no detecta usuarios no se carge la pagina
 });
