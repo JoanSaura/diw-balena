@@ -141,13 +141,14 @@ export const getDrafts = async () => {
   const newsSnapshot = await getDocs(newsCollection);
 
   const drafts = newsSnapshot.docs
-    .map(doc => ({ id: doc.id, ...doc.data() }))
-    .filter(news => news.status === false); 
+      .map(doc => ({ id: doc.id, ...doc.data() }))
+      .filter(news => news.status === false); 
 
   console.log("Esborranys:", drafts);
 
   return drafts;
 };
+
 
 
 
