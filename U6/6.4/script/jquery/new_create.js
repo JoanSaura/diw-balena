@@ -1,12 +1,14 @@
-import { createNews, getNews } from "../firebase.js";
+import { getNews, publishNews, saveDraft, getDrafts } from "../firebase.js";
 
 $(document).ready(async function () {
     const addRowBtn = $('#add-row');
     const paragraphTool = $('.tool-paragraph');
-    const imageTool = $('.tool-img'); 
+    const imageTool = $('.tool-img');
     const newsDropdown = $('#news-dropdown');
+    const draftsDropdown = $('#drafts-dropdown');
     const currentUser = JSON.parse(localStorage.getItem("currentUser")) || { name: 'Usuari' };
     let editingNewsId = null;
+    let editingDraftId = null;
 
     function setDateAndUser() {
         const currentDate = new Date();
@@ -23,53 +25,65 @@ $(document).ready(async function () {
         });
     }
 
-    async function loadNewsContent(newsId) {
+    async function loadDraftsIntoSelect() {
+        const drafts = await getDrafts();
+        draftsDropdown.empty();
+        draftsDropdown.append('<option value="">Tria un esborrany</option>');
+        drafts.forEach(item => {
+            draftsDropdown.append(`<option value="${item.id}">${item.title}</option>`);
+        });
+    }
+
+    async function loadContent(id, type) {
         try {
-            const news = await getNews();
-            const selectedNews = news.find(item => String(item.id) === String(newsId));
-            if (!selectedNews) return;
+            const data = type === 'news' ? await getNews() : await getDrafts();
+            const selectedItem = data.find(item => String(item.id) === String(id));
+            if (!selectedItem) return;
 
-            $('#news-title').val(selectedNews.title);
+            $('#news-title').val(selectedItem.title);
             $('#news-body').empty();
-            editingNewsId = selectedNews.id;
+            const content = selectedItem.content;
+            const editingId = type === 'news' ? editingNewsId : editingDraftId;
+            if (type === 'news') editingNewsId = selectedItem.id;
+            else editingDraftId = selectedItem.id;
 
-            Object.entries(selectedNews.content).forEach(([key, value]) => {
+            Object.entries(content).forEach(([key, value]) => {
                 let row;
                 if (key.startsWith('single-element')) {
                     row = $('<section class="single-row"></section>');
                     const singleElement = $('<div class="single-element"></div>');
-                    value.forEach(element => {
-                        const contentDiv = $('<div class="content-element"></div>');
-                        if (element.type === 'paragraph') {
-                            contentDiv.append($('<textarea class="editable"></textarea>').val(element.content));
-                        } else if (element.type === 'image') {
-                            contentDiv.append(`
-                                <input type="file" accept="image/*" class="image-input" data-base64="${element.src}"/>
-                                <img src="${element.src}" alt="Imatge" style="display: block; max-width: 100%; height: auto;">
-                            `);
-                        }
-                        singleElement.append(contentDiv);
-                    });
+                    if (Array.isArray(value)) {
+                        value.forEach(element => {
+                            const contentDiv = $('<div class="content-element"></div>');
+                            if (element.type === 'paragraph') {
+                                const textarea = $('<textarea class="editable"></textarea>').val(element.content);
+                                contentDiv.append(textarea);
+                            } else if (element.type === 'image') {
+                                const imgElement = `<img src="${element.src}" alt="Imatge" style="display: block; max-width: 100%; height: auto;">`;
+                                const imageInput = `<input type="file" accept="image/*" class="image-input" data-base64="${element.src}"/>`;
+                                contentDiv.append(imageInput).append(imgElement);
+                            }
+                            singleElement.append(contentDiv);
+                        });
+                    }
                     row.append(singleElement);
                 } else if (key.startsWith('double-element')) {
                     row = $('<section class="double-row"></section>');
                     Object.values(value).forEach(column => {
                         const doubleElement = $('<div class="double-element"></div>');
-                        if (column && column.length > 0) {
+                        if (Array.isArray(column)) {
                             column.forEach(element => {
                                 const contentDiv = $('<div class="content-element"></div>');
                                 if (element.type === 'paragraph') {
-                                    contentDiv.append($('<textarea class="editable"></textarea>').val(element.content));
+                                    const textarea = $('<textarea class="editable"></textarea>').val(element.content);
+                                    contentDiv.append(textarea);
                                 } else if (element.type === 'image') {
-                                    contentDiv.append(`
-                                        <input type="file" accept="image/*" class="image-input" data-base64="${element.src}"/>
-                                        <img src="${element.src}" alt="Imatge" style="display: block; max-width: 100%; height: auto;">
-                                    `);
+                                    const imgElement = `<img src="${element.src}" alt="Imatge" style="display: block; max-width: 100%; height: auto;">`;
+                                    const imageInput = `<input type="file" accept="image/*" class="image-input" data-base64="${element.src}"/>`;
+                                    contentDiv.append(imageInput).append(imgElement);
                                 }
                                 doubleElement.append(contentDiv);
                             });
-                        } else {
-                            doubleElement.addClass('blanck-content').append('<h3>Espai en blanc</h3>');
                         }
                         row.append(doubleElement);
                     });
@@ -83,10 +97,9 @@ $(document).ready(async function () {
             bindEraseButtons();
             bindDeleteButtons();
             bindImageUpload();
-
         } catch (error) {
-            console.error('Error al cargar la noticia:', error);
-            alert('Error al cargar la noticia');
+            console.error(`Error al carregar el ${type}:`, error);
+            alert(`Error al carregar el ${type}`);
         }
     }
 
@@ -106,7 +119,7 @@ $(document).ready(async function () {
                     return;
                 }
 
-                let newElement = type === "paragraph" 
+                let newElement = type === "paragraph"
                     ? `<div class="content-element"><textarea class="editable"></textarea></div>`
                     : `<div class="content-element">
                         <input type="file" accept="image/*" class="image-input"/>
@@ -122,7 +135,7 @@ $(document).ready(async function () {
     }
 
     function bindDeleteButtons() {
-        $(".delete-btn").off("click").on("click", function() {
+        $(".delete-btn").off("click").on("click", function () {
             const parent = $(this).closest(".content-element");
             const container = parent.closest(".single-element, .double-element");
             parent.remove();
@@ -133,7 +146,7 @@ $(document).ready(async function () {
     }
 
     function bindEraseButtons() {
-        $('.erase-content').off("click").on("click", function() {
+        $('.erase-content').off("click").on("click", function () {
             const row = $(this).prev();
             row.remove();
             $(this).remove();
@@ -141,13 +154,13 @@ $(document).ready(async function () {
     }
 
     function bindImageUpload() {
-        $(".image-input").off("change").on("change", function(event) {
+        $(".image-input").off("change").on("change", function (event) {
             const file = event.target.files[0];
             const imgElement = $(this).siblings("img");
 
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     imgElement.attr("src", e.target.result).show();
                     $(event.target).attr("data-base64", e.target.result);
                 };
@@ -156,10 +169,10 @@ $(document).ready(async function () {
         });
     }
 
-    newsDropdown.on('change', function() {
+    newsDropdown.on('change', function () {
         const selectedNewsId = $(this).val();
         if (selectedNewsId) {
-            loadNewsContent(selectedNewsId);
+            loadContent(selectedNewsId, 'news');
         } else {
             $('#news-title').val('');
             $('#news-body').empty();
@@ -167,7 +180,18 @@ $(document).ready(async function () {
         }
     });
 
-    addRowBtn.click(function() {
+    draftsDropdown.on('change', function () {
+        const selectedDraftId = $(this).val();
+        if (selectedDraftId) {
+            loadContent(selectedDraftId, 'draft');
+        } else {
+            $('#news-title').val('');
+            $('#news-body').empty();
+            editingDraftId = null;
+        }
+    });
+
+    addRowBtn.click(function () {
         const choice = parseInt($('#choice').val());
         const newsContainer = $('#news-body');
 
@@ -184,7 +208,7 @@ $(document).ready(async function () {
         if (row) {
             const eraseButton = $('<button class="erase-content">Elimina fila</button>');
             newsContainer.append(row).append(eraseButton);
-            eraseButton.click(function() {
+            eraseButton.click(function () {
                 row.remove();
                 $(this).remove();
             });
@@ -194,16 +218,16 @@ $(document).ready(async function () {
         }
     });
 
-    $("#publish").on("click", async function() {
+    $("#publish").on("click", async function () {
         const title = $('#news-title').val().trim();
         const rows = $(".single-row, .double-row");
         let hasParagraph = false;
         const newsContent = {};
 
-        rows.each(function(rowIndex) {
+        rows.each(function (rowIndex) {
             if ($(this).hasClass("single-row")) {
                 const singleElement = [];
-                $(this).find(".single-element .content-element").each(function() {
+                $(this).find(".single-element .content-element").each(function () {
                     let elementData = {};
                     if ($(this).find("textarea").length) {
                         elementData = {
@@ -231,9 +255,9 @@ $(document).ready(async function () {
 
             if ($(this).hasClass("double-row")) {
                 const doubleElements = {};
-                $(this).find(".double-element").each(function(columnIndex) {
+                $(this).find(".double-element").each(function (columnIndex) {
                     const column = [];
-                    $(this).find(".content-element").each(function() {
+                    $(this).find(".content-element").each(function () {
                         let elementData = {};
                         if ($(this).find("textarea").length) {
                             elementData = {
@@ -271,7 +295,7 @@ $(document).ready(async function () {
 
         try {
             const currentDate = new Date();
-            await createNews(
+            await publishNews(
                 editingNewsId || new Date().getTime(),
                 title,
                 newsContent,
@@ -280,13 +304,97 @@ $(document).ready(async function () {
             );
             alert("Notícia publicada o actualitzada amb èxit!");
             await loadNewsIntoSelect();
+            await loadDraftsIntoSelect();
         } catch (error) {
-            console.error('Error al guardar la noticia:', error);
-            alert('Error al guardar la noticia');
+            console.error('Error al guardar la notícia:', error);
+            alert('Error al guardar la notícia');
+        }
+    });
+
+    $("#save-config").on("click", async function () {
+        const title = $('#news-title').val().trim();
+        const newsContent = {};
+
+        $(".single-row, .double-row").each(function (rowIndex) {
+            if ($(this).hasClass("single-row")) {
+                const singleElement = [];
+                $(this).find(".single-element .content-element").each(function () {
+                    let elementData = {};
+                    if ($(this).find("textarea").length) {
+                        elementData = {
+                            type: "paragraph",
+                            content: $(this).find("textarea").val().trim()
+                        };
+                    } else if ($(this).find("img").length) {
+                        const base64Image = $(this).find(".image-input").attr("data-base64");
+                        if (base64Image) {
+                            elementData = {
+                                type: "image",
+                                src: base64Image
+                            };
+                        }
+                    }
+                    if (Object.keys(elementData).length > 0) {
+                        singleElement.push(elementData);
+                    }
+                });
+                if (singleElement.length > 0) {
+                    newsContent[`single-element-${rowIndex}`] = singleElement;
+                }
+            }
+
+            if ($(this).hasClass("double-row")) {
+                const doubleElements = {};
+                $(this).find(".double-element").each(function (columnIndex) {
+                    const column = [];
+                    $(this).find(".content-element").each(function () {
+                        let elementData = {};
+                        if ($(this).find("textarea").length) {
+                            elementData = {
+                                type: "paragraph",
+                                content: $(this).find("textarea").val().trim()
+                            };
+                        } else if ($(this).find("img").length) {
+                            const base64Image = $(this).find(".image-input").attr("data-base64");
+                            if (base64Image) {
+                                elementData = {
+                                    type: "image",
+                                    src: base64Image
+                                };
+                            }
+                        }
+                        if (Object.keys(elementData).length > 0) {
+                            column.push(elementData);
+                        }
+                    });
+                    if (column.length > 0) {
+                        doubleElements[`column-${columnIndex}`] = column;
+                    }
+                });
+                if (Object.keys(doubleElements).length > 0) {
+                    newsContent[`double-element-${rowIndex}`] = doubleElements;
+                }
+            }
+        });
+
+        if (!title) {
+            alert("El títol és obligatori per desar el esborrany.");
+            return;
+        }
+
+        try {
+            await saveDraft(editingDraftId || new Date().getTime(), title, newsContent, currentUser.name);
+            alert("Esborrany desat!");
+            await loadDraftsIntoSelect();
+            $('#news-body').empty();
+            $('#news-title').val('');
+        } catch (error) {
+            console.error("Error al guardar el esborrany:", error);
+            alert("Error al guardar el esborrany");
         }
     });
 
     setDateAndUser();
-    loadNewsIntoSelect();
-    initializeDroppable();
+    await loadNewsIntoSelect();
+    await loadDraftsIntoSelect();
 });
