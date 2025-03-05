@@ -137,16 +137,18 @@
 };
 
 export const getDrafts = async () => {
-  const draftsCollection = collection(db, "news");
-  const draftsSnapshot = await getDocs(draftsCollection);
+  const newsCollection = collection(db, "news");
+  const newsSnapshot = await getDocs(newsCollection);
 
-  const drafts = draftsSnapshot.docs
+  const drafts = newsSnapshot.docs
       .map(doc => ({ id: doc.id, ...doc.data() }))
-      .filter(draft => draft.status === false);  
+      .filter(news => news.status === false); 
 
-  console.log("Esborranys carregats:", drafts);
+  console.log("Esborranys:", drafts);
+
   return drafts;
 };
+
 
 
 
